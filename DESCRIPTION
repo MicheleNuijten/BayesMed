@@ -1,0 +1,10 @@
+Package: BayesMed
+Type: Package
+Title: Default Bayesian hypothesis tests for correlation, partial correlation, and mediation
+Version: 0.1.0
+Date: 2012-11-29
+Author: Michele B. Nuijten, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers
+Maintainer: Michele B. Nuijten <michele.nuijten@gmail.com>
+Depends: R (>= 2.12.1), R2jags, QRM, polspline, MCMCpack
+Description: Default Bayesian hypothesis tests for correlation, partial correlation, and mediation
+License: GPL-2
