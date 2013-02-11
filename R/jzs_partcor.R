@@ -5,8 +5,8 @@ function(V1,V2,control){
   V2 <- (V2-mean(V2))/sd(V2)
   control <- (control-mean(control))/sd(control)
   
-  r0 <- summary(lm(V1~control))$r.squared
-  r1 <- summary(lm(V1~control+V2))$r.squared
+  r0 <- sqrt(summary(lm(V1~control))$r.squared)
+  r1 <- sqrt(summary(lm(V1~control+V2))$r.squared)
   p0 <- 1
   p1 <- 2
   n  <- length(V1)
