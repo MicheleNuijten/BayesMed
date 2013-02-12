@@ -4,6 +4,8 @@ jzs_partcorSD <-
            alternative=c("two.sided","less","greater"),
            n.iter=10000,n.burnin=500){
     
+    runif(1) # defines .Random.seed
+    
     M <- (V1-mean(V1))/sd(V1)
     Y <- (V2-mean(V2))/sd(V2)
     X <- (control-mean(control))/sd(control)

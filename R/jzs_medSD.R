@@ -6,6 +6,8 @@ jzs_medSD <-
            alternativeT=c("two.sided","less","greater"),
            n.iter=10000,n.burnin=500){
     
+    runif(1) # defines .Random.seed
+    
     # independent = vector with values for independent variable
     # dependent = vector with values for dependent variable
     # mediator = vector with values for mediating variable
