@@ -18,7 +18,7 @@ License: \tab GPL-2\cr
 The main functions \code{jzs_med} and \code{jzs_medSD} can be used to establish mediation in a data set. With \code{jzs_cor} and \code{jzs_corSD} you can establish correlation, and with jzs_partcor and jzs_partcorSD partial correlation. 
 }
 \author{
-Michele B. Nuijten <michele.nuijten@gmail.com>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers. Many thanks to Sacha Epskamp.
+Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers. Many thanks to Sacha Epskamp.
 }
 \references{
 Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp hypotheses about chances, the order of a Markov chain. The Annals of Mathematical Statistics, 214-226.

@@ -23,7 +23,7 @@ Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (in p
 Yuan, Y., & MacKinnon, D. (2009). Bayesian mediation analysis. Psychological Methods, 14, 301-322.
 }
 \author{
-Michele B. Nuijten <m.b.nuijten@uvt.nl>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
 }
 \note{
 For the exact lower and upper boundary inspect the \code{...$CI_ab} component of the \code{jzs_medSD} output.

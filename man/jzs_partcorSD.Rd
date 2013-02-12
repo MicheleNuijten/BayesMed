@@ -56,7 +56,7 @@ Liang, F., Paulo, R., Molina, G., Clyde, M. A., & Berger, J. O. (2008). Mixtures
 Wetzels, R. & Wagenmakers, E.-J. (in press). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
 }
 \author{
-Michele B. Nuijten <michele.nuijten@gmail.com>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
 }
 \section{Warning}{
 In some cases the SDmethod \code{fit.st} will fail to converge. If so, another optimization method is used, using different starting values. If the other optimization method does not converge either or gives you a negative Bayes factor (which is meaningless), you could try one of the other SDmethod options or see \code{\link{jzs_partcor}}.

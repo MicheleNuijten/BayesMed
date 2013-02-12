@@ -40,11 +40,8 @@ Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (in p
 Wetzels, R. & Wagenmakers, E.-J. (in press). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
 }
 \author{
-Ruud Wetzels and Michele B. Nuijten
+Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
 }
-%\seealso{
-%\code{\link{jzs_cor}}, \code{\link{jzs_med}}
-%}
 \examples{
 # simulate partially correlated data
 X <- rnorm(50,0,1)

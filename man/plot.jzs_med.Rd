@@ -21,7 +21,7 @@ additional arguments to be passed on to the plot method, such as graphical param
 }
 
 \author{
-Michele B. Nuijten <m.b.nuijten@uvt.nl>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
 }
 
 \seealso{

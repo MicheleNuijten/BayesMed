@@ -39,7 +39,7 @@ The function returns a list with the following items:
 }
 
 \author{
-Michele B. Nuijten <m.b.nuijten@uvt.nl>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
 }
 
 

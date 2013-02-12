@@ -24,7 +24,7 @@ Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (in p
 Su, Y.-S., & Yajima, M. (2012). R2jags: A package for running jags from Rb[Computer software manual]. Available from http://CRAN.R-project.org/package=R2jags (R package version 0.03-08)
 }
 \author{
-Michele B. Nuijten <m.b.nuijten@uvt.nl>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
 }
 
 \examples{
