@@ -24,7 +24,7 @@ Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (in p
 Su, Y.-S., & Yajima, M. (2012). R2jags: A package for running jags from Rb[Computer software manual]. Available from http://CRAN.R-project.org/package=R2jags (R package version 0.03-08)
 }
 \author{
-Michele B. Nuijten <michele.nuijten@gmail.com>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>
 }
 
 \examples{
@@ -41,9 +41,13 @@ plot(res$jagssamples)
 ############
 
 # simulate mediational data
+a <- .5 
+b <- .6
+t_accent <- .3
+
 X <- rnorm(50,0,1)
-M <- .5*X + rnorm(50,0,1)
-Y <- .3*X + .6*M + rnorm(50,0,1)
+M <- a*X + rnorm(50,0,1)
+Y <- t_accent*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 res2 <- jzs_medSD(independent=X,dependent=Y,mediator=M)

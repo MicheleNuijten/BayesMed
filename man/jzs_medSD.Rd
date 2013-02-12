@@ -98,7 +98,7 @@ Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (in p
 Wetzels, R. & Wagenmakers, E.-J. (in press). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
 }
 \author{
-Michele B. Nuijten <michele.nuijten@gmail.com>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>
 }
 
 
@@ -114,9 +114,13 @@ In some cases the SDmethod \code{fit.st} will fail to converge. If so, another o
 \dontrun{
 
 # simulate mediational data
+a <- .5 
+b <- .6
+t_accent <- .3
+
 X <- rnorm(50,0,1)
-M <- .5*X + rnorm(50,0,1)
-Y <- .3*X + .6*M + rnorm(50,0,1)
+M <- a*X + rnorm(50,0,1)
+Y <- t_accent*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 result <- jzs_medSD(independent=X,dependent=Y,mediator=M)

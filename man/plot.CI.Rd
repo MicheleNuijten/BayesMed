@@ -23,7 +23,7 @@ Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (in p
 Yuan, Y., & MacKinnon, D. (2009). Bayesian mediation analysis. Psychological Methods, 14, 301-322.
 }
 \author{
-Michele B. Nuijten <michele.nuijten@gmail.com>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>
 }
 \note{
 For the exact lower and upper boundary inspect the \code{...$CI_ab} component of the \code{jzs_medSD} output.
@@ -33,9 +33,13 @@ For the exact lower and upper boundary inspect the \code{...$CI_ab} component of
 }
 \examples{
 # simulate mediational data
+a <- .5 
+b <- .6
+t_accent <- .3
+
 X <- rnorm(50,0,1)
-M <- .5*X + rnorm(50,0,1)
-Y <- .3*X + .6*M + rnorm(50,0,1)
+M <- a*X + rnorm(50,0,1)
+Y <- t_accent*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 res <- jzs_medSD(independent=X,dependent=Y,mediator=M)

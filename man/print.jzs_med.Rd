@@ -39,16 +39,20 @@ The function returns a list with the following items:
 }
 
 \author{
-Michele B. Nuijten <michele.nuijten@gmail.com>
+Michele B. Nuijten <m.b.nuijten@uvt.nl>
 }
 
 
 \examples{
 \dontrun{
 # simulate mediational data
+a <- .5 
+b <- .6
+t_accent <- .3
+
 X <- rnorm(50,0,1)
-M <- .5*X + rnorm(50,0,1)
-Y <- .3*X + .6*M + rnorm(50,0,1)
+M <- a*X + rnorm(50,0,1)
+Y <- t_accent*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
