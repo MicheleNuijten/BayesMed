@@ -15,13 +15,13 @@ function(x,...){
   arrows(1.55,1.5,2.45,1.5,lwd=2,length=.15)
   
   text(1.5,2.2,substitute("p("*{alpha != 0}*"|D) = "*p_a,list(p_a=round(x$prob_alpha,2))))
-  text(1.5,2.1,substitute({alpha==a},list(a=round(mean(x$alpha),2))))
+  text(1.5,2.1,substitute({hat(alpha)==a},list(a=round(mean(x$alpha),2))))
   
   text(2.5,2.2,substitute("p("*beta != 0*"|D) = "*p_b,list(p_b=round(x$prob_beta,2))))
-  text(2.5,2.1,substitute({beta==b},list(b=round(mean(x$beta),2))))
+  text(2.5,2.1,substitute({hat(beta)==b},list(b=round(mean(x$beta),2))))
     
   text(2,1.3,substitute("p("*tau*{symbol("\242")} != 0*"|D) = "*p_a,list(p_a=round(x$prob_tau_accent,2))))
-  text(2,1.2,substitute(tau*{symbol("\242")} == t,list(t=round(mean(x$tau_accent),2))))
+  text(2,1.2,substitute(hat(tau*{symbol("\242")}) == t,list(t=round(mean(x$tau_accent),2))))
   
   
   par(mai=default)
