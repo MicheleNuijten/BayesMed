@@ -23,6 +23,8 @@ function(x,...){
   text(2,1.3,substitute("p("*tau*{symbol("\242")} != 0*"|D) = "*p_a,list(p_a=round(x$prob_tau_accent,2))))
   text(2,1.2,substitute(hat(tau*{symbol("\242")}) == t,list(t=round(mean(x$tau_accent),2))))
   
+  legend("topleft",legend=c(paste("BF_Mediation",round(x$BF_Mediation,2),sep=": ")
+                            ,paste("BF_FullMediation",round(x$BF_FullMediation,2),sep=": ")))
   
   par(mai=default)
   

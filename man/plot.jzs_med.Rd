@@ -5,7 +5,7 @@
 Display the results of \code{\link{jzs_med}} in a figure.
 }
 \description{
-This function displays the posterior probabilities of path alpha, beta, and tau' in a mediation schema and thus renders a clear view of the structure in the data.
+This function displays the estimates and posterior probabilities of path alpha, beta, and tau' in a mediation schema and thus renders a clear view of the structure in the data.
 }
 \usage{
 \method{plot}{jzs_med}(x,\dots)
@@ -37,8 +37,8 @@ X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
 Y <- t_accent*X + b*M + rnorm(50,0,1)
 
-# save jzs_med output
-res <- jzs_med(independent=X,dependent=Y,mediator=M)
+# save jzs_medSD output
+res <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 
 # plot results
 plot(res)
