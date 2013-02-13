@@ -65,8 +65,8 @@ function(independent,dependent,mediator){
   
   result <- list(EvidenceMediation = EM,
                  EvidenceFullMediation = E.FM,
-                 BayesFactorMediation = BF.EM,
-                 BayesFactorFullMediation = BF.E.FM,
+                 BF_Mediation = BF.EM,
+                 BF_FullMediation = BF.E.FM,
                  prob_alpha = prob_a,
                  prob_beta = prob_b,
                  prob_tau_accent = prob_t_accent)
