@@ -71,4 +71,22 @@ Y <- t_accent*X + b*M + rnorm(50,0,1)
 
 # run jzs_med
 jzs_med(independent=X,dependent=Y,mediator=M)
+
+#----------------------------
+
+# Firefighter data
+data(Firefighters)
+
+X <- Firefighters$x
+Y <- Firefighters$y
+M <- Firefighters$m
+
+# run jzs_med
+result <- jzs_med(independent=X,dependent=Y,mediator=M)
+
+# print result
+result
+
+# plot the result
+plot(result)
 }

@@ -103,7 +103,7 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
 
 
 \section{Warning}{
-In some cases the SDmethod \code{fit.st} will fail to converge. If so, another optimization method is used, using different starting values. If the other optimization method does not converge either or gives you a negative Bayes factor (which is meaningless), you could try one of the other SDmethod options or see \code{\link{jzs_med}}.
+In some cases the SDmethod \code{fit.st} will fail to converge. If so, jzs_medSD automatically switches to another optimization method (optim {stats}) with different starting values (mean and sd of the posterior sample). If the other optimization method does not converge either, you could try one of the other SDmethod options or see \code{\link{jzs_med}}.
 } 
 
 \seealso{
@@ -113,7 +113,7 @@ In some cases the SDmethod \code{fit.st} will fail to converge. If so, another o
 \examples{
 \dontrun{
 
-# simulate mediational data
+# simulated mediational data
 a <- .5 
 b <- .6
 t_accent <- .3
@@ -127,6 +127,47 @@ result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 
 # print result
 result
+
+# inspect posterior distribution for the coefficients
+hist(result$alpha,100,freq=FALSE,
+     main="posterior distribution for alpha",xlab="posterior samples of alpha")
+hist(result$beta,100,freq=FALSE,
+     main="posterior distribution for beta",xlab="posterior samples of beta")
+hist(result$tau_accent,100,freq=FALSE,
+     main="posterior distribution for tau'",xlab="posterior samples of tau'")
+
+# print a traceplot of the chains
+plot(result$jagssamplesA)
+plot(result$jagssamplesTB) 
+# where the first chain is for tau' and the second chain for beta
+
+# calculate and plot a 95\% credible interval for the 
+# posterior mean of the indirect effect
+result$CI_ab
+plot(result$alpha_times_beta)
+
+#----------------------------
+
+# Firefighter data
+data(Firefighters)
+
+X <- Firefighters$x
+Y <- Firefighters$y
+M <- Firefighters$m
+
+# run jzs_medSD
+result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
+
+# NOTE:
+# If jzs_medSD does not converge the first time you run it,
+# run the exact same code again, usually it will converge the 
+# second time.
+
+# print result
+result
+
+# plot the result
+plot(result)
 
 # inspect posterior distribution for the coefficients
 hist(result$alpha,100,freq=FALSE,
