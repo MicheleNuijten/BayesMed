@@ -4,7 +4,8 @@ jzs_medSD <-
            alternativeA=c("two.sided","less","greater"),
            alternativeB=c("two.sided","less","greater"),
            alternativeT=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500){
+           n.iter=10000,n.burnin=500,
+           standardize=TRUE){
     
     runif(1) # defines .Random.seed
     
@@ -16,10 +17,12 @@ jzs_medSD <-
     Y <- dependent
     M <- mediator
     
-    X <- (X-mean(X))/sd(X)
-    Y <- (Y-mean(Y))/sd(Y)
-    M <- (M-mean(M))/sd(M)
-    
+    if(standardize==TRUE){
+      X <- (X-mean(X))/sd(X)
+      Y <- (Y-mean(Y))/sd(Y)
+      M <- (M-mean(M))/sd(M)
+    }
+      
     # sample size
     n <- length(independent)
     

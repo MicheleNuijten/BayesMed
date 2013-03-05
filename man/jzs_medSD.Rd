@@ -12,7 +12,8 @@ jzs_medSD(independent, dependent, mediator,
           alternativeA=c("two.sided","less","greater"), 
           alternativeB=c("two.sided","less","greater"), 
           alternativeT=c("two.sided","less","greater"),
-          n.iter=10000,n.burnin=500)
+          n.iter=10000,n.burnin=500,
+          standardize=TRUE)
 }
 \arguments{
   \item{independent}{
@@ -41,6 +42,9 @@ specify the alternative hypothesis for path tau_accent: \code{two.sided}, \code{
 }
   \item{n.burnin}{
   length of burn in, i.e. number of iterations to discard at the beginning(see the package \code{R2jags}). Defaults to 500. 
+}
+\item{standardize}{
+  logical. Should the variables be standardized? Defaults to TRUE. 
 }
 }
 \note{

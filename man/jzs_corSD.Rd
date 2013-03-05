@@ -32,6 +32,9 @@ specify the alternative hypothesis for the correlation coefficient: \code{two.si
   \item{n.burnin}{
   length of burn in, i.e. number of iterations to discard at the beginning(see the package \code{R2jags}).  Defaults to 500.
 }
+\item{standardize}{
+  logical. Should the variables be standardized? Defaults to TRUE. 
+}
 }
 \value{
 A list containing the following components:

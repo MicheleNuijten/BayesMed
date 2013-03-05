@@ -17,6 +17,9 @@ a numeric vector.
   \item{V2}{
 a numeric vector of the same length as V1.
 }
+  \item{standardize}{
+  logical. Should the variables be standardized? Defaults to TRUE. 
+}
   \item{\dots}{
 additional arguments passed on to the correlation method (see \code{\link{cor}}).
 }

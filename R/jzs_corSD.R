@@ -2,12 +2,14 @@ jzs_corSD <-
   function(V1,V2,
            SDmethod=c("fit.st","dnorm","splinefun","logspline"),
            alternative=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500){
+           n.iter=10000,n.burnin=500, standardize=TRUE){
     
     runif(1) # defines .Random.seed
     
-    V1 <- (V1-mean(V1))/sd(V1)
-    V2 <- (V2-mean(V2))/sd(V2)
+    if(standardize==TRUE){
+      V1 <- (V1-mean(V1))/sd(V1)
+      V2 <- (V2-mean(V2))/sd(V2)
+    }
     
     X <- V1
     Y <- V2
@@ -82,7 +84,7 @@ model
       list(alpha = 0.0), #chain 1 starting value
       list(alpha = -0.3), #chain 2 starting value
       list(alpha = 0.3)) #chain 3 starting value
-      
+    
     jagsamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
                        n.chains=3, n.iter=n.iter, DIC=T,
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file1)
