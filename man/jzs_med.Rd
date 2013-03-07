@@ -8,7 +8,7 @@ Perform a default Bayesian hypothesis test for mediation.
 This function can be used to perform a default Bayesian hypothesis test for mediation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008).
 }
 \usage{
-jzs_med(independent, dependent, mediator)
+jzs_med(independent, dependent, mediator,...)
 }
 \arguments{
   \item{independent}{
@@ -20,6 +20,10 @@ a vector containing values for the dependent variable.
   \item{mediator}{
 a vector containing values for the mediating variable.
 }
+  \item{\dots}{
+  additional arguments to be passed on to \code{\link{jzs_cor}} and \code{\link{jzs_partcor}}, such as \code{standardize}.
+  }
+  
 }
 \details{
 The test consists of four steps. Firstly, it computes the posterior probability for the existence of the path between the independent and the mediating variable (path alpha) by means of a default Bayesian hypothesis test for correlation (Wetzels & Wagenmakers, 2012). 

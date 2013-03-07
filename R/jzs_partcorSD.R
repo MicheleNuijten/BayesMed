@@ -2,13 +2,16 @@ jzs_partcorSD <-
   function(V1,V2,control,
            SDmethod=c("fit.st","dnorm","splinefun","logspline"),
            alternative=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500){
+           n.iter=10000,n.burnin=500,
+           standardize=TRUE){
     
     runif(1) # defines .Random.seed
     
-    M <- (V1-mean(V1))/sd(V1)
-    Y <- (V2-mean(V2))/sd(V2)
-    X <- (control-mean(control))/sd(control)
+    if(standardize==TRUE){
+      M <- (V1-mean(V1))/sd(V1)
+      Y <- (V2-mean(V2))/sd(V2)
+      X <- (control-mean(control))/sd(control)
+    }
     
     n <- length(V1)
     
@@ -273,4 +276,3 @@ model
     
     return(res)
   }
-    

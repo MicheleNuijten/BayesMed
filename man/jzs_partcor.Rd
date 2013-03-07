@@ -7,7 +7,7 @@ A default Bayesian hypothesis test for partial correlation.
 This function can be used to perform a default Bayesian hypothesis test for partial correlation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008).
 }
 \usage{
-jzs_partcor(V1, V2, control)
+jzs_partcor(V1, V2, control, standardize=TRUE)
 }
 \arguments{
   \item{V1}{
@@ -18,6 +18,9 @@ a numeric vector of the same length as V1.
 }
   \item{control}{
 a numeric vector of the same length as V1 and V2. This variable is partialled out of the correlation between V1 and V2.
+}
+ \item{standardize}{
+  logical. Should the variables be standardized? Defaults to TRUE. 
 }
 }
 \details{

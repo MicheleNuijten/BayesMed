@@ -8,9 +8,8 @@ This function can be used to perform a default Bayesian hypothesis test for part
 }
 \usage{
 jzs_partcorSD(V1, V2, control, 
-              SDmethod = c("fit.st", "dnorm", "splinefun", "logspline"),
-              alternative = c("two.sided", "less", "greater"),
-              n.iter=10000,n.burnin=500)
+              SDmethod = c("fit.st", "dnorm", "splinefun", "logspline"),                   alternative = c("two.sided", "less", "greater"),
+              n.iter=10000,n.burnin=500,standardize=TRUE)
 }
 \arguments{
   \item{V1}{
@@ -33,6 +32,9 @@ specify the alternative hypothesis for the correlation coefficient: \code{two.si
 }
   \item{n.burnin}{
   length of burn in, i.e. number of iterations to discard at the beginning(see the package \code{R2jags}). Defaults to 500.
+}
+\item{standardize}{
+  logical. Should the variables be standardized? Defaults to TRUE. 
 }
 }
 

@@ -1,12 +1,12 @@
 jzs_cor <-
-  function(V1,V2,standardize=TRUE,...){
+  function(V1,V2,standardize=TRUE){
     
     if(standardize==TRUE){
       V1 <- (V1-mean(V1))/sd(V1)
       V2 <- (V2-mean(V2))/sd(V2)
     }
     
-    r <- cor(V1,V2,...)
+    r <- cor(V1,V2)
     n <- length(V1)
     
     jzs_corbf <- function(r,n){

@@ -8,7 +8,7 @@ A default Bayesian hypothesis test for correlation.
 This function can be used to perform a default Bayesian hypothesis test for correlation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008).
 }
 \usage{
-jzs_cor(V1, V2, ...)
+jzs_cor(V1, V2,standardize=TRUE)
 }
 \arguments{
   \item{V1}{
@@ -19,9 +19,6 @@ a numeric vector of the same length as V1.
 }
   \item{standardize}{
   logical. Should the variables be standardized? Defaults to TRUE. 
-}
-  \item{\dots}{
-additional arguments passed on to the correlation method (see \code{\link{cor}}).
 }
 }
 \details{

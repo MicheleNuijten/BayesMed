@@ -1,5 +1,5 @@
 jzs_med <-
-function(independent,dependent,mediator){
+function(independent,dependent,mediator,...){
   
   # independent = vector with values for independent variable
   # dependent = vector with values for dependent variable
@@ -12,10 +12,10 @@ function(independent,dependent,mediator){
   Y <- dependent
   M <- mediator
   
-    
+  
   # calculate BF for a and b
-  BFa    <- jzs_cor(X,M)$BayesFactor
-  BFb    <- jzs_partcor(M,Y,control=X)$BayesFactor
+  BFa    <- jzs_cor(X,M,...)$BayesFactor
+  BFb    <- jzs_partcor(M,Y,control=X,...)$BayesFactor
   
   # convert BFs to posterior probability
   # prob cannot be exactly 1 or 0
