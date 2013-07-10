@@ -76,5 +76,9 @@ Y <- .3*X + .6*C + rnorm(50,0,1)
 (res <- jzs_partcorSD(X,Y,C))
 
 # plot posterior samples
-hist(res$beta,freq=FALSE)
+plot(res$beta_samples)
+
+# plot traceplot
+plot(res$jagssamples)
+# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
 }

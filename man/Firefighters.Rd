@@ -36,10 +36,24 @@ data(Firefighters)
 result <- jzs_medSD(Firefighters$x,Firefighters$y,Firefighters$m)
 result
 
+### NOTE ###
+#Sometimes this error will pop up:
+#
+#Error in solve.default(nItheta) : 
+#  system is computationally singular: reciprocal condition number = *some small number*
+#Error in mydt2(0, mT, sT, dfT) : unused arguments (mT, sT, dfT)
+#In addition: Warning message:
+#In jzs_medSD(X, Y, M) :
+#  fit.st did not converge. Alternative optimization method was used.
+#  
+#If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
+#
+#############
+
 # underlying mediational model with path weights and posterior probabilities
-plot(result)
+plot(result$main_result)
 
 # posterior distribution of indirect effect "ab" incl 95\% credible interval
-plot(result$alpha_times_beta)
+plot(result$ab_samples)
 }
 }

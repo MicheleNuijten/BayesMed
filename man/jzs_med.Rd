@@ -35,21 +35,23 @@ Thirdly, the evidence for mediation is computed by multiplying the posterior pro
 Fourthly, the evidence for full mediation is computed by multiplying the evidence for mediation with one minus the posterior probability for the existence of path tau', the path between the independent and dependent variable, controlled for the mediator.
 }
 \value{
-The function returns a list with the following items:
-\item{EvidenceMediation}{The posterior probability that the relation between the independent and the dependent variable is mediated by the specified mediator.
+The function returns a data frame with the following values:
+
+\item{BF_alpha}{The Bayes factor for the existence of path alpha. A value greater than one indicates evidence that alpha exists, a value smaller than one indicates evidence that alpha does not exist.
 }
-\item{EvidenceFullMediation}{The posterior probability that the relation between the independent and the dependent variable is fully mediated by the specified mediator and the direct effect of the independent variable on the dependent variable disappears after introducing the mediator.
+\item{BF_beta}{The Bayes factor for the existence of path beta. A value greater than one indicates evidence that beta exists, a value smaller than one indicates evidence that beta does not exist.
 }
-\item{BF_Mediation}{The Bayes factor for mediation compared to no mediation. A value greater than one indicates evidence in favor of mediation, a value smaller than one indicates evidence against mediation.
+\item{BF_tau_prime}{The Bayes factor for the existence of path tau_prime. A value greater than one indicates evidence that tau_prime exists, a value smaller than one indicates evidence that tau_prime does not exist.
 }
-\item{BF_FullMediation}{The Bayes factor for full mediation compared to no mediation. A value greater than one indicates evidence in favor of full mediation, a value smaller than one indicates evidence against full mediation.
+\item{BF_Mediation (alpha*beta)}{The Bayes factor for mediation compared to no mediation. A value greater than one indicates evidence in favor of mediation, a value smaller than one indicates evidence against mediation.
 }
-\item{prob_alpha}{The posterior probability that the path alpha (the relation between the independent and the mediating variable) is not zero.
+
+\item{PostProb_alpha}{The posterior probability that the path alpha (the relation between the independent and the mediating variable) is not zero.}
+\item{PostProb_beta}{The posterior probability that the path beta (the relation between the mediating and the dependent variable after controlling for the independent variable) is not zero.}
+\item{PostProb_tau_prime}{The posterior probability that the path tau_prime (the relation between the independent and the dependent variable after controlling for the mediator) is not zero.}
+\item{PostProb_Mediation (alpha*beta)}{The posterior probability that the relation between the independent and the dependent variable is mediated by the specified mediator.}
 }
-\item{prob_beta}{The posterior probability that the path beta (the relation between the mediating and the dependent variable after controlling for the independent variable) is not zero.
-}
-\item{prob_tau_accent}{The posterior probability that the path tau' (the relation between the independent and the dependent variable after controlling for the mediator) is not zero.}
-}
+
 \references{
 Liang, F., Paulo, R., Molina, G., Clyde, M. A., & Berger, J. O. (2008). Mixtures of g priors for Bayesian variable selection. Journal of the American Statistical Association, 103(481), 410-423.
 
@@ -67,11 +69,11 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
 # simulate mediational data
 a <- .5 
 b <- .6
-t_accent <- .3
+t_prime <- .3
 
 X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
-Y <- t_accent*X + b*M + rnorm(50,0,1)
+Y <- t_prime*X + b*M + rnorm(50,0,1)
 
 # run jzs_med
 jzs_med(independent=X,dependent=Y,mediator=M)

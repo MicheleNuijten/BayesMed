@@ -60,38 +60,57 @@ Thirdly, the evidence for mediation is computed by multiplying the posterior pro
 Fourthly, the evidence for full mediation is computed by multiplying the evidence for mediation with one minus the posterior probability for the existence of path tau', the path between the independent and dependent variable, controlled for the mediator.
 }
 \value{
-A list containing the following components:
-\item{EvidenceMediation}{The posterior probability that the relation between the independent and the dependent variable is mediated by the specified mediator.
+jzs_mdSD returns a list containing visible (printed) and invisible components. The visible components are a data frame with the main results and the 95\% credible interval of the mediated effect (see next section). The invisible components contain additional information on the parameters, and can be used for plot functions etc.
 }
-\item{EvidenceFullMediation}{The posterior probability that the relation between the independent and the dependent variable is fully mediated by the specified mediator and the direct effect of the independent variable on the dependent variable disappears after introducing the mediator.
+
+\section{Visible Output}{
+\describe{
+
+The visible output, the output that is printed to the screen, is a list containing a data frame and a credible interval.
+
+\item{Estimate_alpha}{The mean of the posterior samples of alpha.
 }
-\item{BF_Mediation}{The Bayes factor for mediation compared to no mediation. A value greater than one indicates evidence in favor of mediation, a value smaller than one indicates evidence against mediation.
+\item{Estimate_beta}{The mean of the posterior samples of beta.
 }
-\item{BF_FullMediation}{The Bayes factor for full mediation compared to no mediation. A value greater than one indicates evidence in favor of full mediation, a value smaller than one indicates evidence against full mediation.
+\item{Estimate_tau_prime}{The mean of the posterior samples of tau_prime.
 }
+\item{Estimate_Mediation (alpha*beta)}{The mean of the posterior samples of the indirect effect alpha*beta.}
+
 \item{BF_alpha}{The Bayes factor for the existence of path alpha. A value greater than one indicates evidence that alpha exists, a value smaller than one indicates evidence that alpha does not exist.
 }
 \item{BF_beta}{The Bayes factor for the existence of path beta. A value greater than one indicates evidence that beta exists, a value smaller than one indicates evidence that beta does not exist.
 }
-\item{BF_tau_accent}{The Bayes factor for the existence of path tau_accent. A value greater than one indicates evidence that tau_accent exists, a value smaller than one indicates evidence that tau_accent does not exist.
+\item{BF_tau_prime}{The Bayes factor for the existence of path tau_prime. A value greater than one indicates evidence that tau_prime exists, a value smaller than one indicates evidence that tau_prime does not exist.
 }
-\item{CI_ab}{The 95\% credible interval around the indirect effect "ab".}
-\item{prob_alpha}{The posterior probability that the path alpha (the relation between the independent and the mediating variable) is not zero.
+\item{BF_Mediation (alpha*beta)}{The Bayes factor for mediation compared to no mediation. A value greater than one indicates evidence in favor of mediation, a value smaller than one indicates evidence against mediation.
 }
-\item{prob_beta}{The posterior probability that the path beta (the relation between the mediating and the dependent variable after controlling for the independent variable) is not zero.
+
+\item{PostProb_alpha}{The posterior probability that the path alpha (the relation between the independent and the mediating variable) is not zero.}
+\item{PostProb_beta}{The posterior probability that the path beta (the relation between the mediating and the dependent variable after controlling for the independent variable) is not zero.}
+\item{PostProb_tau_prime}{The posterior probability that the path tau_prime (the relation between the independent and the dependent variable after controlling for the mediator) is not zero.}
+\item{PostProb_Mediation (alpha*beta)}{The posterior probability that the relation between the independent and the dependent variable is mediated by the specified mediator.}
+
+\item{CI_ab}{The 95\% credible interval of the indirect effect "ab".}
 }
-\item{prob_tau_accent}{The posterior probability that the path tau' (the relation between the independent and the dependent variable after controlling for the mediator) is not zero.
 }
-\item{alpha}{The posterior samples for alpha.
+
+\section{Invisible Output}{
+\describe{
+
+jzs_medSD also returns output that is not printed to the screen. This invisible output contains the following elements:
+
+\item{alpha_samples}{The posterior samples of alpha.
 }
-\item{beta}{The posterior samples for beta.
+\item{beta_samples}{The posterior samples of beta.
 }
-\item{tau_accent}{The posterior samples for tau_accent.
+\item{tau_prime_samples}{The posterior samples of tau_accent.
 }
-\item{alpha_times_beta}{The posterior distribution of alpha multiplied by the posterior distribution of beta. This is equivalent to the posterior distribution of the indirect effect "ab".}
+\item{ab_samples}{The posterior distribution of alpha multiplied by the posterior distribution of beta. This is equivalent to the posterior distribution of the indirect effect "ab".}
 \item{jagssamplesA}{The JAGS output for the MCMC estimation of path alpha. This object can be used to construct a traceplot.}
 \item{jagssamplesTB}{The JAGS output for the MCMC estimation of path tau' and beta. This object can be used to construct a traceplot.}
 }
+}
+
 \references{
 Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp hypotheses about chances, the order of a Markov chain. The Annals of Mathematical Statistics, 214-226.
 
@@ -107,7 +126,7 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
 
 
 \section{Warning}{
-In some cases the SDmethod \code{fit.st} will fail to converge. If so, jzs_medSD automatically switches to another optimization method (optim {stats}) with different starting values (mean and sd of the posterior sample). If the other optimization method does not converge either, you could try one of the other SDmethod options or see \code{\link{jzs_med}}.
+In some cases the SDmethod \code{fit.st} will fail to converge. If so, jzs_medSD automatically switches to another optimization method (optim {stats}) with different starting values (mean and sd of the posterior sample). If the other optimization method does not converge either, you could either try to run the same code again (sometimes it will converge a second time), or you could try one of the other SDmethod options or try the analytical mediation test instead (see \code{\link{jzs_med}}). 
 } 
 
 \seealso{
@@ -120,11 +139,11 @@ In some cases the SDmethod \code{fit.st} will fail to converge. If so, jzs_medSD
 # simulated mediational data
 a <- .5 
 b <- .6
-t_accent <- .3
+t_prime <- .3
 
 X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
-Y <- t_accent*X + b*M + rnorm(50,0,1)
+Y <- t_prime*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
@@ -132,23 +151,34 @@ result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 # print result
 result
 
+### NOTE ###
+#Sometimes this error will pop up:
+#
+#Error in solve.default(nItheta) : 
+#  system is computationally singular: reciprocal condition number = *some small number*
+#Error in mydt2(0, mT, sT, dfT) : unused arguments (mT, sT, dfT)
+#In addition: Warning message:
+#In jzs_medSD(X, Y, M) :
+#  fit.st did not converge. Alternative optimization method was used.
+#  
+#If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
+#
+#############
+
 # inspect posterior distribution for the coefficients
-hist(result$alpha,100,freq=FALSE,
-     main="posterior distribution for alpha",xlab="posterior samples of alpha")
-hist(result$beta,100,freq=FALSE,
-     main="posterior distribution for beta",xlab="posterior samples of beta")
-hist(result$tau_accent,100,freq=FALSE,
-     main="posterior distribution for tau'",xlab="posterior samples of tau'")
+plot(result$alpha_samples)
+plot(result$beta_samples)
+plot(result$tau_prime_samples)
 
 # print a traceplot of the chains
 plot(result$jagssamplesA)
 plot(result$jagssamplesTB) 
-# where the first chain is for tau' and the second chain for beta
+# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
 
 # calculate and plot a 95\% credible interval for the 
 # posterior mean of the indirect effect
 result$CI_ab
-plot(result$alpha_times_beta)
+plot(result$ab_samples)
 
 #----------------------------
 
@@ -171,24 +201,21 @@ result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 result
 
 # plot the result
-plot(result)
+plot(result$main_result)
 
 # inspect posterior distribution for the coefficients
-hist(result$alpha,100,freq=FALSE,
-     main="posterior distribution for alpha",xlab="posterior samples of alpha")
-hist(result$beta,100,freq=FALSE,
-     main="posterior distribution for beta",xlab="posterior samples of beta")
-hist(result$tau_accent,100,freq=FALSE,
-     main="posterior distribution for tau'",xlab="posterior samples of tau'")
+plot(result$alpha_samples)
+plot(result$beta_samples)
+plot(result$tau_prime_samples)
 
 # print a traceplot of the chains
 plot(result$jagssamplesA)
 plot(result$jagssamplesTB) 
-# where the first chain is for tau' and the second chain for beta
+# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
 
 # calculate and plot a 95\% credible interval for the 
 # posterior mean of the indirect effect
 result$CI_ab
-plot(result$alpha_times_beta)
+plot(result$ab_samples)
 }
 }

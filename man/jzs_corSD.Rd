@@ -79,5 +79,5 @@ Y <- .4*X + rnorm(100,0,1)
 (res <- jzs_corSD(X,Y))
 
 # plot posterior samples
-hist(res$alpha,freq=FALSE)
+plot(res$alpha_samples)
 }

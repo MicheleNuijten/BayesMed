@@ -85,13 +85,13 @@ model
       list(alpha = -0.3), #chain 2 starting value
       list(alpha = 0.3)) #chain 3 starting value
     
-    jagsamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
+    jagssamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
                        n.chains=3, n.iter=n.iter, DIC=T,
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file1)
     
     # estimate the posterior regression coefficient and scaling factor g
-    alpha <- jagsamples$BUGSoutput$sims.list$alpha[,1]
-    g  <- jagsamples$BUGSoutput$sims.list$g
+    alpha <- jagssamples$BUGSoutput$sims.list$alpha[,1]
+    g  <- jagssamples$BUGSoutput$sims.list$g
     
     
     #------------------------------------------------------------------
@@ -266,10 +266,11 @@ model
     res <- list(Correlation=mean(cor_coef),
                 BayesFactor=BF,
                 PosteriorProbability=prob_r,
-                alpha=cor_coef,
-                jagssamples=jagsamples)
+                alpha_samples=cor_coef,
+                jagssamples=jagssamples)
     
-    class(res) <- c("jzs_med","list")
+    class(res) <- c("JZSMedSD","list")
+    class(res$alpha_samples) <- "CI"
     class(res$jagssamples) <- "rjags"
     
     return(res) 
