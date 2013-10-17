@@ -124,8 +124,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21_less <- pt((0-mu)/sigma,nu,lower.tail=TRUE)/sigma
-        BF21_greater <- pt((0-mu)/sigma,nu,lower.tail=FALSE)/sigma
+        BF21_less <- 2*pt((0-mu)/sigma,nu,lower.tail=TRUE)/sigma
+        BF21_greater <- 2*pt((0-mu)/sigma,nu,lower.tail=FALSE)/sigma
         
         
       } else {
@@ -152,8 +152,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21_less <- pt((0-m)/s,df,lower.tail=TRUE)/s
-        BF21_greater <- pt((0-m)/s,df,lower.tail=FALSE)/s
+        BF21_less <- 2*pt((0-m)/s,df,lower.tail=TRUE)/s
+        BF21_greater <- 2*pt((0-m)/s,df,lower.tail=FALSE)/s
       }
       
       #-------------------------
