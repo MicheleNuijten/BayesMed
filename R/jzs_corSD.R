@@ -85,13 +85,13 @@ model
       list(alpha = -0.3), #chain 2 starting value
       list(alpha = 0.3)) #chain 3 starting value
     
-    jagsamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
+    jagssamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
                        n.chains=3, n.iter=n.iter, DIC=T,
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file1)
     
     # estimate the posterior regression coefficient and scaling factor g
-    alpha <- jagsamples$BUGSoutput$sims.list$alpha[,1]
-    g  <- jagsamples$BUGSoutput$sims.list$g
+    alpha <- jagssamples$BUGSoutput$sims.list$alpha[,1]
+    g  <- jagssamples$BUGSoutput$sims.list$g
     
     
     #------------------------------------------------------------------
@@ -115,8 +115,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of rho < 0}
-        BF21_less <- pt((0-mu)/sigma,nu,lower.tail=TRUE)/sigma
-        BF21_greater <- pt((0-mu)/sigma,nu,lower.tail=FALSE)/sigma
+        BF21_less <- 2*pt((0-mu)/sigma,nu,lower.tail=TRUE)/sigma
+        BF21_greater <- 2*pt((0-mu)/sigma,nu,lower.tail=FALSE)/sigma
         
       } else {
         
@@ -143,8 +143,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of alpha < 0}
-        BF21_less <- pt((0-m)/s,df,lower.tail=TRUE)/s
-        BF21_greater <- pt((0-m)/s,df,lower.tail=FALSE)/s
+        BF21_less <- 2*pt((0-m)/s,df,lower.tail=TRUE)/s
+        BF21_greater <- 2*pt((0-m)/s,df,lower.tail=FALSE)/s
         
       }
       
@@ -266,10 +266,11 @@ model
     res <- list(Correlation=mean(cor_coef),
                 BayesFactor=BF,
                 PosteriorProbability=prob_r,
-                alpha=cor_coef,
-                jagssamples=jagsamples)
+                alpha_samples=cor_coef,
+                jagssamples=jagssamples)
     
-    class(res) <- c("jzs_med","list")
+    class(res) <- c("JZSMedSD","list")
+    class(res$alpha_samples) <- "CI"
     class(res$jagssamples) <- "rjags"
     
     return(res) 

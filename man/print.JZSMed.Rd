@@ -1,18 +1,18 @@
-\name{print.jzs_med}
-\alias{print.jzs_med}
+\name{print.JZSMedSD}
+\alias{print.JZSMedSD}
 \title{
-Print jzs_med output.
+Print JZSMed output.
 }
 \description{
-Print the output of a jzs_med object.
+Print the output of a JZSMedSD object.
 }
 
 \usage{
-\method{print}{jzs_med}(x,\dots)
+\method{print}{JZSMedSD}(x,\dots)
 }
 \arguments{
   \item{x}{
-a jzs_med object.
+a JZSMedSD object.
 }
   \item{\dots}{
 further arguments passed to or from other methods.
@@ -48,11 +48,11 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
 # simulate mediational data
 a <- .5 
 b <- .6
-t_accent <- .3
+t_prime <- .3
 
 X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
-Y <- t_accent*X + b*M + rnorm(50,0,1)
+Y <- t_prime*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 result <- jzs_medSD(independent=X,dependent=Y,mediator=M)

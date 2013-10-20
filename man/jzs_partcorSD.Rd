@@ -55,7 +55,7 @@ Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp hypo
 
 Liang, F., Paulo, R., Molina, G., Clyde, M. A., & Berger, J. O. (2008). Mixtures of g priors for Bayesian variable selection. Journal of the American Statistical Association, 103(481), 410-423.
 
-Wetzels, R. & Wagenmakers, E.-J. (in press). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
+Wetzels, R., & Wagenmakers, E.-J. (2012). A Default Bayesian Hypothesis Test for Correlations and Partial Correlations. Psychonomic Bulletin & Review, 19, 1057-1064.
 }
 \author{
 Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
@@ -76,5 +76,9 @@ Y <- .3*X + .6*C + rnorm(50,0,1)
 (res <- jzs_partcorSD(X,Y,C))
 
 # plot posterior samples
-hist(res$beta,freq=FALSE)
+plot(res$beta_samples)
+
+# plot traceplot
+plot(res$jagssamples)
+# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
 }

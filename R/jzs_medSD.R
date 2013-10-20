@@ -158,13 +158,13 @@ model
       list(alpha = -0.3), #chain 2 starting value
       list(alpha = 0.3)) #chain 3 starting value
     
-    jagsamplesA <- jags(data=jags.data, inits=jags.inits, jags.params, 
+    jagssamplesA <- jags(data=jags.data, inits=jags.inits, jags.params, 
                        n.chains=3, n.iter=n.iter, DIC=T,
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file1)
     
     # estimate the posterior regression coefficient and scaling factor g
-    alpha <- jagsamplesA$BUGSoutput$sims.list$alpha[,1]
-    g  <- jagsamplesA$BUGSoutput$sims.list$g
+    alpha <- jagssamplesA$BUGSoutput$sims.list$alpha[,1]
+    g  <- jagssamplesA$BUGSoutput$sims.list$g
     
     #------------------------------------------------------------------
     
@@ -187,8 +187,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of alpha < 0}
-        BF21a_less <- pt((0-muA)/sigmaA,nuA,lower.tail=TRUE)/sigmaA
-        BF21a_greater <- pt((0-muA)/sigmaA,nuA,lower.tail=FALSE)/sigmaA
+        BF21a_less <- 2*pt((0-muA)/sigmaA,nuA,lower.tail=TRUE)/sigmaA
+        BF21a_greater <- 2*pt((0-muA)/sigmaA,nuA,lower.tail=FALSE)/sigmaA
         
       } else {
         
@@ -215,8 +215,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of alpha < 0}
-        BF21a_less <- pt((0-mA)/sA,dfA,lower.tail=TRUE)/sA
-        BF21a_greater <- pt((0-mA)/sA,dfA,lower.tail=FALSE)/sA
+        BF21a_less <- 2*pt((0-mA)/sA,dfA,lower.tail=TRUE)/sA
+        BF21a_greater <- 2*pt((0-mA)/sA,dfA,lower.tail=FALSE)/sA
         
       }
       
@@ -343,11 +343,11 @@ model
       list(theta = c(0.3, 0.0)), #chain 2 starting value
       list(theta = c(-.15,.15))) #chain 3 starting value
     
-    jagsamplesTB <- jags(data=jags.data, inits=jags.inits, jags.params, 
+    jagssamplesTB <- jags(data=jags.data, inits=jags.inits, jags.params, 
                        n.chains=3, n.iter=n.iter, DIC=T,
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
     
-    beta <- jagsamplesTB$BUGSoutput$sims.list$theta[,2]
+    beta <- jagssamplesTB$BUGSoutput$sims.list$theta[,2]
     
     #------------------------------------------------------------------
     
@@ -368,8 +368,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21b_less <- pt((0-muB)/sigmaB,nuB,lower.tail=TRUE)/sigmaB
-        BF21b_greater <- pt((0-muB)/sigmaB,nuB,lower.tail=FALSE)/sigmaB
+        BF21b_less <- 2*pt((0-muB)/sigmaB,nuB,lower.tail=TRUE)/sigmaB
+        BF21b_greater <- 2*pt((0-muB)/sigmaB,nuB,lower.tail=FALSE)/sigmaB
         
         
       } else {
@@ -396,8 +396,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21b_less <- pt((0-mB)/sB,dfB,lower.tail=TRUE)/sB
-        BF21b_greater <- pt((0-mB)/sB,dfB,lower.tail=FALSE)/sB
+        BF21b_less <- 2*pt((0-mB)/sB,dfB,lower.tail=TRUE)/sB
+        BF21b_greater <- 2*pt((0-mB)/sB,dfB,lower.tail=FALSE)/sB
       }
       
       #-------------------------
@@ -518,7 +518,7 @@ model
     # FULL OR PARTIAL MEDIATION
     #=========================================
     
-    tau_accent <- jagsamplesTB$BUGSoutput$sims.list$theta[,1]
+    tau_accent <- jagssamplesTB$BUGSoutput$sims.list$theta[,1]
     
     #---------------------------------------------------
     
@@ -539,8 +539,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of TAU < 0}
-        BF21t_less <- pt((0-muT)/sigmaT,nuT,lower.tail=TRUE)/sigmaT
-        BF21t_greater <- pt((0-muT)/sigmaT,nuT,lower.tail=FALSE)/sigmaT
+        BF21t_less <- 2*pt((0-muT)/sigmaT,nuT,lower.tail=TRUE)/sigmaT
+        BF21t_greater <- 2*pt((0-muT)/sigmaT,nuT,lower.tail=FALSE)/sigmaT
         
         
       } else {
@@ -567,8 +567,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of tau < 0}
-        BF21t_less <- pt((0-mT)/sT,dfT,lower.tail=TRUE)/sT
-        BF21t_greater <- pt((0-mT)/sT,dfT,lower.tail=FALSE)/sT
+        BF21t_less <- 2*pt((0-mT)/sT,dfT,lower.tail=TRUE)/sT
+        BF21t_greater <- 2*pt((0-mT)/sT,dfT,lower.tail=FALSE)/sT
       }
       
       #-------------------------
@@ -706,28 +706,30 @@ model
     
     #===============================================================
     
-    res <- list(EvidenceMediation = EM,
-                EvidenceFullMediation = E.FM,
-                BF_Mediation = BF.EM,
-                BF_FullMediation = BF.E.FM,
-                BF_alpha=BFa,
-                BF_beta=BFb,
-                BF_tau_accent=BFt_accent,
-                CI_ab = CI,
-                prob_alpha = prob_a,
-                prob_beta = prob_b,
-                prob_tau_accent = prob_t_accent,
-                alpha = alpha,
-                beta = beta,
-                tau_accent = tau_accent,
-                alpha_times_beta = ab,
-                jagssamplesA = jagsamplesA,
-                jagssamplesTB = jagsamplesTB)
+    res <- data.frame(Estimate = c(mean(alpha),mean(beta),mean(tau_accent),mean(ab)),
+                         BF = c(BFa,BFb,BFt_accent,BF.EM),
+                         PostProb = c(prob_a,prob_b,prob_t_accent,EM))
     
-    class(res) <- c("jzs_med","list")
-    class(res$jagssamplesA) <- "rjags"
-    class(res$jagssamplesTB) <- "rjags"
-    class(res$alpha_times_beta) <- "CI"
+    rownames(res) <- c("alpha","beta","tau_prime","Mediation (alpha*beta)")
     
-    return(res)
+    result <- list(main_result=res,
+                   CI_ab=CI,
+                   alpha_samples=alpha,
+                   beta_samples=beta,
+                   tau_prime_samples=tau_accent,
+                   ab_samples=ab,
+                   jagssamplesA=jagssamplesA,
+                   jagssamplesTB=jagssamplesTB)
+    
+  
+    class(result) <- c("JZSMedSD","list")
+    class(result$main_result) <- c("JZSMed","data.frame")
+    class(result$jagssamplesA) <- "rjags"
+    class(result$jagssamplesTB) <- "rjags"
+    class(result$ab_samples) <- "CI"
+    class(result$alpha_samples) <- "CI"
+    class(result$beta_samples) <- "CI"
+    class(result$tau_prime_samples) <- "CI"
+    
+    return(result)
   }

@@ -32,17 +32,17 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
 # simulate mediational data
 a <- .5 
 b <- .6
-t_accent <- .3
+t_prime <- .3
 
 X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
-Y <- t_accent*X + b*M + rnorm(50,0,1)
+Y <- t_prime*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 res <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 
 # plot posterior distribution of a*b
-plot(res$alpha_times_beta)
+plot(res$ab_samples)
 
 # print the exact lower and upper boundary of the interval
 res$CI_ab

@@ -97,11 +97,11 @@ model
       list(theta = c(0.3, 0.0)), #chain 2 starting value
       list(theta = c(-.15,.15))) #chain 3 starting value
     
-    jagsamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
+    jagssamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
                        n.chains=3, n.iter=n.iter, DIC=T,
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
     
-    beta <- jagsamples$BUGSoutput$sims.list$theta[,2]
+    beta <- jagssamples$BUGSoutput$sims.list$theta[,2]
     
     #------------------------------------------------------------------
     
@@ -124,8 +124,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21_less <- pt((0-mu)/sigma,nu,lower.tail=TRUE)/sigma
-        BF21_greater <- pt((0-mu)/sigma,nu,lower.tail=FALSE)/sigma
+        BF21_less <- 2*pt((0-mu)/sigma,nu,lower.tail=TRUE)/sigma
+        BF21_greater <- 2*pt((0-mu)/sigma,nu,lower.tail=FALSE)/sigma
         
         
       } else {
@@ -152,8 +152,8 @@ model
         
         # save BF for one-tailed test
         # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21_less <- pt((0-m)/s,df,lower.tail=TRUE)/s
-        BF21_greater <- pt((0-m)/s,df,lower.tail=FALSE)/s
+        BF21_less <- 2*pt((0-m)/s,df,lower.tail=TRUE)/s
+        BF21_greater <- 2*pt((0-m)/s,df,lower.tail=FALSE)/s
       }
       
       #-------------------------
@@ -268,11 +268,12 @@ model
     
     res <- list(BayesFactor=BF,
                 PosteriorProbability=prob_b,
-                beta=beta,
-                jagssamples=jagsamples)
+                beta_samples=beta,
+                jagssamples=jagssamples)
     
-    class(res) <- c("jzs_med","list")
+    class(res) <- c("JZSMedSD","list")
     class(res$jagssamples) <- "rjags"
+    class(res$beta_samples) <- "CI"
     
     return(res)
   }

@@ -43,16 +43,16 @@ plot(res$jagssamples)
 # simulate mediational data
 a <- .5 
 b <- .6
-t_accent <- .3
+t_prime <- .3
 
 X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
-Y <- t_accent*X + b*M + rnorm(50,0,1)
+Y <- t_prime*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
 res2 <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 
-# plot resulting chains for alpha, beta, and tau
+# plot resulting chains for alpha, beta, and tau_prime
 plot(res2$jagssamplesA)
 plot(res2$jagssamplesTB)
 }
