@@ -122,12 +122,6 @@ model
         # BAYES FACTOR BETA
         BF <- 1/(mydt(0,mu,sigma,nu)/dcauchy(0))
         
-        # save BF for one-tailed test
-        # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21_less <- 2*pt((0-mu)/sigma,nu,lower.tail=TRUE)/sigma
-        BF21_greater <- 2*pt((0-mu)/sigma,nu,lower.tail=FALSE)/sigma
-        
-        
       } else {
         
         warning("fit.st did not converge, alternative optimization method was used.","\n")
@@ -149,11 +143,6 @@ model
         
         # ALTERNATIVE BAYES FACTOR PARTIAL CORRELATION
         BF <- 1/(mydt2(0,m,s,df)/dcauchy(0))
-        
-        # save BF for one-tailed test
-        # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21_less <- 2*pt((0-m)/s,df,lower.tail=TRUE)/s
-        BF21_greater <- 2*pt((0-m)/s,df,lower.tail=FALSE)/s
       }
       
       #-------------------------
@@ -162,37 +151,11 @@ model
       
       BF <- 1/(dnorm(0,mean(beta),sd(beta))/dcauchy(0)) 
       
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of beta < 0}
-      BF21_less <- 2*pnorm(0,lower.tail=TRUE)
-      BF21_greater <- 2*pnorm(0,lower.tail=FALSE)
-      
       #-------------------------
       
     } else if(SDmethod[1]=="splinefun"){
       f <- splinefun(density(beta))
       BF <- 1/(f(0)/dcauchy(0))
-      
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of beta < 0}
-      propposterior_less <- sum(beta<0)/length(beta)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(beta)
-      }
-      
-      propposterior_greater <- sum(beta>0)/length(beta)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(beta)
-      }
-      
-      BF21_less <- 2*propposterior_less
-      BF21_greater <- 2*propposterior_greater
       
       #-------------------------
       
@@ -201,33 +164,33 @@ model
       posterior.pp  <- dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BF           <- prior.pp/posterior.pp
-      
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of beta < 0}
-      propposterior_less <- sum(beta<0)/length(beta)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(beta)
-      }
-      
-      propposterior_greater <- sum(beta>0)/length(beta)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(beta)
-      }
-      
-      BF21_less <- 2*propposterior_less
-      BF21_greater <- 2*propposterior_greater
-      
+        
     }
     
     #-------------------------------------------------------
     
     # one-sided test?
+    
+    # save BF for one-tailed test
+    # BF21 = 2*{proportion posterior samples of beta < 0}
+    
+    propposterior_less <- sum(beta<0)/length(beta)
+    propposterior_greater <- sum(beta>0)/length(beta)
+    
+    # posterior proportion cannot be zero, because this renders a BF of zero
+    # none of the samples of the parameter follow the restriction
+    # ergo: the posterior proportion is smaller than 1/length(parameter)
+    
+    if(propposterior_less==0){
+      propposterior_less <- 1/length(beta)
+    }
+    
+    if(propposterior_greater==0){
+      propposterior_greater <- 1/length(beta)
+    }
+    
+    BF21_less <- 2*propposterior_less
+    BF21_greater <- 2*propposterior_greater
     
     if(alternative[1]=="less"){
       # BF10 = p(D|b~cauchy(0,1))/p(D|b=0)
