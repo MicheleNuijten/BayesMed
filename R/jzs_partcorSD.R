@@ -102,7 +102,7 @@ model
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
     
     beta <- jagssamples$BUGSoutput$sims.list$theta[,2]
-    
+        
     #------------------------------------------------------------------
     
     if(SDmethod[1]=="fit.st"){
