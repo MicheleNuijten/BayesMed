@@ -5,7 +5,7 @@
 Perform a default Bayesian hypothesis test for mediation.
 }
 \description{
-This function can be used to perform a default Bayesian hypothesis test for mediation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008).
+This function can be used to perform a default Bayesian hypothesis test for mediation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008). The test is based on the default Bayesian hypothesis tests for correlation and partial correlation (Wetzels & Wagenmakers, 2012).
 }
 \usage{
 jzs_med(independent, dependent, mediator,...)

@@ -1,7 +1,7 @@
 \name{jzs_partcor}
 \alias{jzs_partcor}
 \title{
-A default Bayesian hypothesis test for partial correlation.
+A default Bayesian hypothesis test for partial correlation (Wetzels, R., & Wagenmakers).
 }
 \description{
 This function can be used to perform a default Bayesian hypothesis test for partial correlation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008).
@@ -24,7 +24,7 @@ a numeric vector of the same length as V1 and V2. This variable is partialled ou
 }
 }
 \details{
-See Wetzels & Wagenmakers, in press.
+See Wetzels & Wagenmakers, 2012.
 }
 \value{
 The function returns a list with the following items:

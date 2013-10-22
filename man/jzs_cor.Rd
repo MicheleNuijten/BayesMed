@@ -2,7 +2,7 @@
 \alias{jzs_cor}
 
 \title{
-A default Bayesian hypothesis test for correlation.
+A default Bayesian hypothesis test for correlation (Wetzels, R., & Wagenmakers).
 }
 \description{
 This function can be used to perform a default Bayesian hypothesis test for correlation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008).
@@ -22,7 +22,7 @@ a numeric vector of the same length as V1.
 }
 }
 \details{
-See Wetzels & Wagenmakers, in press.
+See Wetzels & Wagenmakers, 2012.
 }
 \value{
 The function returns a list with the following items:
