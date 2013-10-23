@@ -1,6 +1,5 @@
 plot.JZSMed <-
   function(x,...){
-    default <- par("mai")
     par(mai=c(0,0,0.4,0))
     
     # plot mediation figure
@@ -37,6 +36,6 @@ plot.JZSMed <-
     # add Bayes factors for mediation and full mediation
     legend("topleft",legend=paste("BF_Mediation",round(x[rownames(x)%in%"Mediation (alpha*beta)",colnames(x)%in%"BF"],2),sep=": "))
     
-    par(mai=default)
+    par(mai=c(1.360000, 1.093333, 1.093333, 0.560000)) # restore default settings
     
   }

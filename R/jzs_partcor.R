@@ -1,16 +1,19 @@
 jzs_partcor <-
-  function(V1,V2,control,standardize=TRUE,
-           PostDistr=c("fit.st","dnorm","splinefun","logspline"),
+  function(V1,V2,control,
            alternative=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500){
+           n.iter=10000,n.burnin=500,standardize=TRUE){
     
     runif(1) # defines .Random.seed
     
     # standardize variables
     if(standardize==TRUE){
-      V1 <- (V1-mean(V1))/sd(V1)
-      V2 <- (V2-mean(V2))/sd(V2)
-      control <- (control-mean(control))/sd(control)
+      M <- (V1-mean(V1))/sd(V1)
+      Y <- (V2-mean(V2))/sd(V2)
+      X <- (control-mean(control))/sd(control)
+    } else {
+      M <- V1
+      Y <- V2
+      X <- control      
     }
     
     r0 <- sqrt(summary(lm(V1~control))$r.squared)
@@ -193,7 +196,7 @@ jzs_partcor <-
                 beta_samples=beta,
                 jagssamples=jagssamples)
     
-    class(res) <- c("JZSMedSD","list")
+    class(res) <- c("jzs_med","list")
     class(res$jagssamples) <- "rjags"
     class(res$beta_samples) <- "CI"
     

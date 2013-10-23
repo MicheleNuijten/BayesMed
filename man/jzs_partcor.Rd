@@ -7,7 +7,8 @@ A default Bayesian hypothesis test for partial correlation (Wetzels, R., & Wagen
 This function can be used to perform a default Bayesian hypothesis test for partial correlation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008).
 }
 \usage{
-jzs_partcor(V1, V2, control, standardize=TRUE)
+jzs_partcor(V1, V2, control, alternative = c("two.sided", "less", "greater"),
+          n.iter=10000,n.burnin=500,standardize=TRUE)
 }
 \arguments{
   \item{V1}{
@@ -19,6 +20,16 @@ a numeric vector of the same length as V1.
   \item{control}{
 a numeric vector of the same length as V1 and V2. This variable is partialled out of the correlation between V1 and V2.
 }
+  \item{alternative}{
+specify the alternative hypothesis for the correlation coefficient: \code{two.sided}, \code{greater} than zero, or \code{less} than zero.
+}
+  \item{n.iter}{
+  number of total iterations per chain (see the package \code{R2jags}). Defaults to 10000.
+}
+  \item{n.burnin}{
+  length of burn in, i.e. number of iterations to discard at the beginning(see the package \code{R2jags}). Defaults to 500.
+}
+
  \item{standardize}{
   logical. Should the variables be standardized? Defaults to TRUE. 
 }
@@ -46,11 +57,21 @@ Wetzels, R., & Wagenmakers, E.-J. (2012). A Default Bayesian Hypothesis Test for
 Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers.
 }
 \examples{
+\dontrun{
 # simulate partially correlated data
 X <- rnorm(50,0,1)
 C <- .5*X + rnorm(50,0,1)
 Y <- .3*X + .6*C + rnorm(50,0,1)
 
 # run jzs_partcor
-jzs_partcor(X,Y,C)
+res <- jzs_partcor(X,Y,C)
+
+# plot posterior samples
+plot(res$beta_samples)
+
+# plot traceplot
+plot(res$jagssamples)
+# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
+
+}
 }

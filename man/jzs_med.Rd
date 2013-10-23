@@ -8,7 +8,11 @@ Perform a default Bayesian hypothesis test for mediation.
 This function can be used to perform a default Bayesian hypothesis test for mediation, using a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008). The test is based on the default Bayesian hypothesis tests for correlation and partial correlation (Wetzels & Wagenmakers, 2012).
 }
 \usage{
-jzs_med(independent, dependent, mediator,...)
+jzs_med(independent, dependent, mediator,
+        alternativeA=c("two.sided","less","greater"), 
+        alternativeB=c("two.sided","less","greater"), 
+        alternativeT=c("two.sided","less","greater"),
+        n.iter=10000,n.burnin=500,standardize=TRUE)
 }
 \arguments{
   \item{independent}{
@@ -20,10 +24,24 @@ a vector containing values for the dependent variable.
   \item{mediator}{
 a vector containing values for the mediating variable.
 }
-  \item{\dots}{
-  additional arguments to be passed on to \code{\link{jzs_cor}} and \code{\link{jzs_partcor}}, such as \code{standardize}.
-  }
-  
+\item{alternativeA}{
+specify the alternative hypothesis for path alpha: \code{two.sided}, \code{greater} than zero, or \code{less} than zero.
+}
+\item{alternativeB}{
+specify the alternative hypothesis for path beta: \code{two.sided}, \code{greater} than zero, or \code{less} than zero.
+}
+\item{alternativeT}{
+specify the alternative hypothesis for path tau_accent: \code{two.sided}, \code{greater} than zero, or \code{less} than zero.
+}
+  \item{n.iter}{
+  number of total iterations per chain (see the package \code{R2jags}). Defaults to 10000. 
+}
+  \item{n.burnin}{
+  length of burn in, i.e. number of iterations to discard at the beginning(see the package \code{R2jags}). Defaults to 500. 
+}
+\item{standardize}{
+  logical. Should the variables be standardized? Defaults to TRUE. 
+} 
 }
 \details{
 The test consists of four steps. Firstly, it computes the posterior probability for the existence of the path between the independent and the mediating variable (path alpha) by means of a default Bayesian hypothesis test for correlation (Wetzels & Wagenmakers, 2012). 
@@ -66,6 +84,7 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
 \code{\link{jzs_cor}}, \code{\link{jzs_partcor}}, \code{\link{jzs_medSD}}
 }
 \examples{
+\dontrun{
 # simulate mediational data
 a <- .5 
 b <- .6
@@ -76,23 +95,42 @@ M <- a*X + rnorm(50,0,1)
 Y <- t_prime*X + b*M + rnorm(50,0,1)
 
 # run jzs_med
-jzs_med(independent=X,dependent=Y,mediator=M)
 
-#----------------------------
-
-# Firefighter data
-data(Firefighters)
-
-X <- Firefighters$x
-Y <- Firefighters$y
-M <- Firefighters$m
-
-# run jzs_med
 result <- jzs_med(independent=X,dependent=Y,mediator=M)
+result 
 
-# print result
-result
+### NOTE ###
+#Sometimes this error will pop up:
+#
+#Error in solve.default(nItheta) : 
+#  system is computationally singular: reciprocal condition number = *some small number*
+#Error in mydt2(0, mT, sT, dfT) : unused arguments (mT, sT, dfT)
+#In addition: Warning message:
+#In jzs_medSD(X, Y, M) :
+#  fit.st did not converge. Alternative optimization method was used.
+#  
+#If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
+#
+#############
 
-# plot the result
-plot(result)
+# plot the result in a mediation diagram
+plot(result$main_result)
+
+# inspect posterior distribution of the coefficients
+plot(result$alpha_samples)
+plot(result$beta_samples)
+plot(result$tau_prime_samples)
+
+# print a traceplot of the chains
+plot(result$jagssamplesA)
+plot(result$jagssamplesTB) 
+# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
+
+# calculate and plot a 95\% credible interval for the 
+# posterior mean of the indirect effect
+result$CI_ab
+plot(result$ab_samples)
+
+
+}
 }

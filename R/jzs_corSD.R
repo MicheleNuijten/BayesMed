@@ -2,7 +2,7 @@ jzs_corSD <-
   function(V1,V2,
            SDmethod=c("fit.st","dnorm","splinefun","logspline"),
            alternative=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500, standardize=TRUE){
+           n.iter=10000,n.burnin=500,standardize=TRUE){
     
     runif(1) # defines .Random.seed
     
@@ -233,7 +233,7 @@ model
                 alpha_samples=cor_coef,
                 jagssamples=jagssamples)
     
-    class(res) <- c("JZSMedSD","list")
+    class(res) <- c("jzs_med","list")
     class(res$alpha_samples) <- "CI"
     class(res$jagssamples) <- "rjags"
     

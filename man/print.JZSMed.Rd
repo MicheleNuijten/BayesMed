@@ -1,14 +1,14 @@
-\name{print.JZSMedSD}
-\alias{print.JZSMedSD}
+\name{print.jzs_med}
+\alias{print.jzs_med}
 \title{
-Print JZSMed output.
+Print jzs_med output.
 }
 \description{
-Print the output of a JZSMedSD object.
+Print the output of a jzs_med object.
 }
 
 \usage{
-\method{print}{JZSMedSD}(x,\dots)
+\method{print}{jzs_med}(x,\dots)
 }
 \arguments{
   \item{x}{
@@ -55,7 +55,7 @@ M <- a*X + rnorm(50,0,1)
 Y <- t_prime*X + b*M + rnorm(50,0,1)
 
 # run jzs_medSD
-result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
+result <- jzs_medSD(independent=X,dependent=Y,mediator=M,SDmethod='dnorm')
 
 # print result
 result

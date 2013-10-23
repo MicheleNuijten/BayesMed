@@ -1,8 +1,7 @@
 jzs_cor <-
-  function(V1,V2,standardize=TRUE,
+  function(V1,V2,
            alternative=c("two.sided","less","greater"),
-           PostDistr=c("fit.st","dnorm","splinefun","logspline"),
-           n.iter=10000,n.burnin=500){
+           n.iter=10000,n.burnin=500,standardize=TRUE){
     
     runif(1) # defines .Random.seed
     
@@ -179,11 +178,12 @@ jzs_cor <-
     res <- list(Correlation=mean(cor_coef),
                 BayesFactor=BF,
                 PosteriorProbability=prob_r,
-                alpha=alpha,
+                alpha_samples=alpha,
                 jagssamples=jagssamples)
     
     class(res) <- c("jzs_med","list")
     class(res$jagssamples) <- "rjags"
+    class(res$alpha_samples) <- "CI"
     
     return(res)
   }

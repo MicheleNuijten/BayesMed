@@ -25,11 +25,7 @@ Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp hypo
 
 Liang, F., Paulo, R., Molina, G., Clyde, M. A., & Berger, J. O. (2008). Mixtures of g priors for Bayesian variable selection. Journal of the American Statistical Association, 103(481), 410-423.
 
-<<<<<<< HEAD
-Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
-=======
 Wetzels, R., & Wagenmakers, E.-J. (2012). A Default Bayesian Hypothesis Test for Correlations and Partial Correlations. Psychonomic Bulletin & Review, 19, 1057-1064.
->>>>>>> 90e9273e9a0a4fc244e85717f7e685a356734072
 }
 
 \examples{
@@ -47,20 +43,6 @@ Y <- .3*X + .6*M + rnorm(50,0,1)
 result <- jzs_med(independent=X,dependent=Y,mediator=M)
 result
 
-# plot results
-plot(result)
-
-###########
-
-# run jzs_medSD to perform the Savage-Dickey (SD) Bayesian hypothesis test for mediation
-# advantages of the SD method are:
-      # the possibility to test parameters one-sided
-      # the possibility to estimate the posterior distributions of the parameters
-
-
-result_SD <- jzs_medSD(independent=X,dependent=Y,mediator=M)
-result_SD
-
 ### NOTE ###
 #Sometimes this error will pop up:
 #
@@ -74,6 +56,20 @@ result_SD
 #If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
 #
 #############
+
+# plot results
+plot(result$main_result)
+
+###########
+
+# run jzs_medSD to perform the Savage-Dickey (SD) Bayesian hypothesis test for mediation
+# advantages of the SD method are:
+      # the possibility to test parameters one-sided
+      # the possibility to estimate the posterior distributions of the parameters
+
+
+result_SD <- jzs_medSD(independent=X,dependent=Y,mediator=M)
+result_SD
 
 # plot(results)
 plot(result_SD$main_result)

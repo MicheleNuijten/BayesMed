@@ -615,7 +615,7 @@ model
                    jagssamplesTB=jagssamplesTB)
     
   
-    class(result) <- c("JZSMedSD","list")
+    class(result) <- c("jzs_med","list")
     class(result$main_result) <- c("JZSMed","data.frame")
     class(result$jagssamplesA) <- "rjags"
     class(result$jagssamplesTB) <- "rjags"

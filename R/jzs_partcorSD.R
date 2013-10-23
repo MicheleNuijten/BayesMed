@@ -11,6 +11,10 @@ jzs_partcorSD <-
       M <- (V1-mean(V1))/sd(V1)
       Y <- (V2-mean(V2))/sd(V2)
       X <- (control-mean(control))/sd(control)
+    } else {
+      M <- V1
+      Y <- V2
+      X <- control      
     }
     
     n <- length(V1)
@@ -234,7 +238,7 @@ model
                 beta_samples=beta,
                 jagssamples=jagssamples)
     
-    class(res) <- c("JZSMedSD","list")
+    class(res) <- c("jzs_med","list")
     class(res$jagssamples) <- "rjags"
     class(res$beta_samples) <- "CI"
     
