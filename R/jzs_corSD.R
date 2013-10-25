@@ -6,16 +6,17 @@ jzs_corSD <-
     
     runif(1) # defines .Random.seed
     
+    # standardize variables
     if(standardize==TRUE){
-      V1 <- (V1-mean(V1))/sd(V1)
-      V2 <- (V2-mean(V2))/sd(V2)
+      X <- (V1-mean(V1))/sd(V1)
+      Y <- (V2-mean(V2))/sd(V2)
+    }else {
+      M <- V1
+      Y <- V2
     }
     
-    X <- V1
-    Y <- V2
-    
-    n <- length(V1)
-    r <- cor(V1,V2)
+    n <- length(X)
+    r <- cor(X,Y)
     
     #==========================================================
     # load JAGS models

@@ -16,11 +16,11 @@ jzs_partcor <-
       X <- control      
     }
     
-    r0 <- sqrt(summary(lm(V1~control))$r.squared)
-    r1 <- sqrt(summary(lm(V1~control+V2))$r.squared)
+    r0 <- sqrt(summary(lm(M~X))$r.squared)
+    r1 <- sqrt(summary(lm(M~X+Y))$r.squared)
     p0 <- 1
     p1 <- 2
-    n  <- length(V1)
+    n  <- length(X)
     
     # main function to analytically calculate the BF for partial correlation
     # see Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.

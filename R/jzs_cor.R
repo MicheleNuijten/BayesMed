@@ -7,12 +7,15 @@ jzs_cor <-
     
     # standardize variables
     if(standardize==TRUE){
-      V1 <- (V1-mean(V1))/sd(V1)
-      V2 <- (V2-mean(V2))/sd(V2)
+      X <- (V1-mean(V1))/sd(V1)
+      Y <- (V2-mean(V2))/sd(V2)
+    }else {
+      M <- V1
+      Y <- V2
     }
     
-    r <- cor(V1,V2)
-    n <- length(V1)
+    r <- cor(X,Y)
+    n <- length(X)
     
     # main function to analytically calculate the BF for correlation
     # see Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.

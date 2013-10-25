@@ -39,11 +39,19 @@ See Wetzels & Wagenmakers, 2012.
 }
 \value{
 The function returns a list with the following items:
+\item{PartCoef}{
+Mean of the posterior samples of the unstandardized partial correlation (the regression coefficient beta in the equation V2 = intercept + alpha*control + beta*V1).
+}
 \item{BayesFactor}{
-The Bayes factor for the partial correlation coefficient. A value greater than one indicates evidence in favor of correlation, a value smaller than one indicates evidence against correlation.
+The Bayes factor for the existence of a partial correlation between V1 and V2, controlled for the control variable. A value greater than one indicates evidence in favor of partial correlation, a value smaller than one indicates evidence against partial correlation.
 }
 \item{PosteriorProbability}{
 The posterior probability for the existence of a partial correlation between V1 and V2, controlled for the control variable.
+}
+\item{beta}{
+The posterior samples for the regression coefficient beta. This is the unstandardized partial correlation.
+}
+\item{jagssamples}{The JAGS output for the MCMC estimation of the path. This object can be used to construct a traceplot.
 }
 }
 \references{

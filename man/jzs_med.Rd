@@ -53,7 +53,21 @@ Thirdly, the evidence for mediation is computed by multiplying the posterior pro
 Fourthly, the evidence for full mediation is computed by multiplying the evidence for mediation with one minus the posterior probability for the existence of path tau', the path between the independent and dependent variable, controlled for the mediator.
 }
 \value{
-The function returns a data frame with the following values:
+jzs_md returns a list containing visible (printed) and invisible components. The visible components are a data frame with the main results and the 95\% credible interval of the mediated effect (see next section). The invisible components contain additional information on the parameters, and can be used for plot functions etc.
+}
+
+\section{Visible Output}{
+\describe{
+
+The visible output, the output that is printed to the screen, is a list containing a data frame and a credible interval.
+
+\item{Estimate_alpha}{The mean of the posterior samples of alpha.
+}
+\item{Estimate_beta}{The mean of the posterior samples of beta.
+}
+\item{Estimate_tau_prime}{The mean of the posterior samples of tau_prime.
+}
+\item{Estimate_Mediation (alpha*beta)}{The mean of the posterior samples of the indirect effect alpha*beta.}
 
 \item{BF_alpha}{The Bayes factor for the existence of path alpha. A value greater than one indicates evidence that alpha exists, a value smaller than one indicates evidence that alpha does not exist.
 }
@@ -68,6 +82,9 @@ The function returns a data frame with the following values:
 \item{PostProb_beta}{The posterior probability that the path beta (the relation between the mediating and the dependent variable after controlling for the independent variable) is not zero.}
 \item{PostProb_tau_prime}{The posterior probability that the path tau_prime (the relation between the independent and the dependent variable after controlling for the mediator) is not zero.}
 \item{PostProb_Mediation (alpha*beta)}{The posterior probability that the relation between the independent and the dependent variable is mediated by the specified mediator.}
+
+\item{CI_ab}{The 95\% credible interval of the indirect effect "ab".}
+}
 }
 
 \references{
@@ -99,19 +116,17 @@ Y <- t_prime*X + b*M + rnorm(50,0,1)
 result <- jzs_med(independent=X,dependent=Y,mediator=M)
 result 
 
-### NOTE ###
-#Sometimes this error will pop up:
-#
-#Error in solve.default(nItheta) : 
-#  system is computationally singular: reciprocal condition number = *some small number*
-#Error in mydt2(0, mT, sT, dfT) : unused arguments (mT, sT, dfT)
-#In addition: Warning message:
-#In jzs_medSD(X, Y, M) :
-#  fit.st did not converge. Alternative optimization method was used.
-#  
-#If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
-#
-#############
+#-------------------------------------
+
+# load Firefighter data
+data(Firefighters)
+
+X <- Firefighters$x
+M <- Firefighters$m
+Y <- Firefighters$y
+
+# run jzs_med
+result <- jzs_med(independent=X,dependent=Y,mediator=M)
 
 # plot the result in a mediation diagram
 plot(result$main_result)

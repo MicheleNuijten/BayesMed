@@ -233,7 +233,8 @@ model
     
     #====================================================
     
-    res <- list(BayesFactor=BF,
+    res <- list(PartCoef=mean(beta),
+                BayesFactor=BF,
                 PosteriorProbability=prob_b,
                 beta_samples=beta,
                 jagssamples=jagssamples)

@@ -39,6 +39,9 @@ specify the alternative hypothesis for the correlation coefficient: \code{two.si
 }
 
 \value{
+\item{PartCoef}{
+Mean of the posterior samples of the unstandardized partial correlation (the regression coefficient beta in the equation V2 = intercept + alpha*control + beta*V1).
+}
 \item{BayesFactor}{
 The Bayes factor for the correlation coefficient. A value greater than one indicates evidence in favor of correlation, a value smaller than one indicates evidence against correlation.
 }

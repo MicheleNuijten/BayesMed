@@ -165,6 +165,18 @@ result
 #
 #############
 
+#------------------------------------------
+
+# load Firefighter data
+data(Firefighters)
+
+X <- Firefighters$x
+M <- Firefighters$m
+Y <- Firefighters$y
+
+# run jzs_medSD
+result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
+
 # plot the result in a mediation diagram
 plot(result$main_result)
 

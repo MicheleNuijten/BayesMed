@@ -46,6 +46,11 @@ The Bayes factor for the correlation coefficient. A value greater than one indic
 \item{PosteriorProbability}{
 The posterior probability for the existence of a correlation between V1 and V2.
 }
+\item{alpha}{
+The posterior samples for the correlation coefficient alpha.
+}
+\item{jagssamples}{The JAGS output for the MCMC estimation of the path. This object can be used to construct a traceplot.
+}
 }
 \references{
 Liang, F., Paulo, R., Molina, G., Clyde, M. A., & Berger, J. O. (2008). Mixtures of g priors for Bayesian variable selection. Journal of the American Statistical Association, 103(481), 410-423.
