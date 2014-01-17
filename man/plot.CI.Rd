@@ -29,6 +29,7 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
 \code{\link{jzs_medSD}}
 }
 \examples{
+\dontrun{
 # simulate mediational data
 a <- .5 
 b <- .6
@@ -46,4 +47,5 @@ plot(res$ab_samples)
 
 # print the exact lower and upper boundary of the interval
 res$CI_ab
+}
 }

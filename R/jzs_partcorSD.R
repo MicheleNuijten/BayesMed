@@ -11,6 +11,10 @@ jzs_partcorSD <-
       M <- (V1-mean(V1))/sd(V1)
       Y <- (V2-mean(V2))/sd(V2)
       X <- (control-mean(control))/sd(control)
+    } else {
+      M <- V1
+      Y <- V2
+      X <- control      
     }
     
     n <- length(V1)
@@ -102,7 +106,7 @@ model
                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
     
     beta <- jagssamples$BUGSoutput$sims.list$theta[,2]
-    
+        
     #------------------------------------------------------------------
     
     if(SDmethod[1]=="fit.st"){
@@ -229,12 +233,13 @@ model
     
     #====================================================
     
-    res <- list(BayesFactor=BF,
+    res <- list(PartCoef=mean(beta),
+                BayesFactor=BF,
                 PosteriorProbability=prob_b,
                 beta_samples=beta,
                 jagssamples=jagssamples)
     
-    class(res) <- c("JZSMedSD","list")
+    class(res) <- c("jzs_med","list")
     class(res$jagssamples) <- "rjags"
     class(res$beta_samples) <- "CI"
     

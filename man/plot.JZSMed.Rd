@@ -28,6 +28,7 @@ Michele B. Nuijten <m.b.nuijten@uvt.nl>, Ruud Wetzels, Dora Matzke, Conor V. Dol
  \code{\link{jzs_med}}
 }
 \examples{
+\dontrun{
 # simulate mediational data
 a <- .5 
 b <- .6
@@ -42,4 +43,5 @@ res <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 
 # plot results
 plot(res$main_result)
+}
 }

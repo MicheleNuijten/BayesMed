@@ -39,7 +39,7 @@ specify the alternative hypothesis for the correlation coefficient: \code{two.si
 \value{
 A list containing the following components:
 \item{Correlation}{
-The correlation coefficient for the relation between V1 and V2.
+The correlation coefficient for the relation between V1 and V2. The correlation coefficient is calculated by standardizing the mean of the posterior samples: mean(samples)*(sd(V1)/sd(V2)).
 }
 \item{BayesFactor}{
 The Bayes factor for the correlation coefficient. A value greater than one indicates evidence in favor of correlation, a value smaller than one indicates evidence against correlation.
@@ -71,13 +71,19 @@ In some cases the SDmethod \code{fit.st} will fail to converge. If so, another o
 \code{\link{jzs_cor}}, \code{\link{jzs_partcorSD}}
 }
 \examples{
+\dontrun{
 # generate correlational data
 X <- rnorm(100)
 Y <- .4*X + rnorm(100,0,1)
 
-# run jzs_corSD
-(res <- jzs_corSD(X,Y))
+# run jzs_cor
+result <- jzs_corSD(X,Y)
 
-# plot posterior samples
-plot(res$alpha_samples)
+# inspect posterior distribution 
+plot(result$alpha_samples)
+
+# print a traceplot of the chains
+plot(result$jagssamples)
+
+}
 }

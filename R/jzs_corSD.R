@@ -2,20 +2,21 @@ jzs_corSD <-
   function(V1,V2,
            SDmethod=c("fit.st","dnorm","splinefun","logspline"),
            alternative=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500, standardize=TRUE){
+           n.iter=10000,n.burnin=500,standardize=TRUE){
     
     runif(1) # defines .Random.seed
     
+    # standardize variables
     if(standardize==TRUE){
-      V1 <- (V1-mean(V1))/sd(V1)
-      V2 <- (V2-mean(V2))/sd(V2)
+      X <- (V1-mean(V1))/sd(V1)
+      Y <- (V2-mean(V2))/sd(V2)
+    }else {
+      M <- V1
+      Y <- V2
     }
     
-    X <- V1
-    Y <- V2
-    
-    n <- length(V1)
-    r <- cor(V1,V2)
+    n <- length(X)
+    r <- cor(X,Y)
     
     #==========================================================
     # load JAGS models
@@ -233,7 +234,7 @@ model
                 alpha_samples=cor_coef,
                 jagssamples=jagssamples)
     
-    class(res) <- c("JZSMedSD","list")
+    class(res) <- c("jzs_med","list")
     class(res$alpha_samples) <- "CI"
     class(res$jagssamples) <- "rjags"
     

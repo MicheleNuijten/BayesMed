@@ -213,50 +213,19 @@ model
         # ALTERNATIVE BAYES FACTOR ALPHA
         BFa <- 1/(mydt2(0,mA,sA,dfA)/dcauchy(0))
         
-        # save BF for one-tailed test
-        # BF21 = 2*{proportion posterior samples of alpha < 0}
-        BF21a_less <- 2*pt((0-mA)/sA,dfA,lower.tail=TRUE)/sA
-        BF21a_greater <- 2*pt((0-mA)/sA,dfA,lower.tail=FALSE)/sA
-        
       }
       
       #-------------------------
       
     } else if(SDmethod[1]=="dnorm"){
       BFa <- 1/(dnorm(0,mean(alpha),sd(alpha))/dcauchy(0))
-      
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of alpha < 0}
-      BF21a_less <- 2*pnorm(0,lower.tail=TRUE)
-      BF21a_greater <- 2*pnorm(0,lower.tail=FALSE)
-      
+       
       #-------------------------
       
     } else if(SDmethod[1]=="splinefun"){
       f <- splinefun(density(alpha))
       BFa <- 1/(f(0)/dcauchy(0))
-      
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of alpha < 0}
-      propposterior_less <- sum(alpha<0)/length(alpha)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(alpha)
-      }
-      
-      propposterior_greater <- sum(alpha>0)/length(alpha)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(alpha)
-      }
-      
-      BF21a_less <- 2*propposterior_less
-      BF21a_greater <- 2*propposterior_greater
-      
+            
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){
@@ -265,32 +234,31 @@ model
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BFa           <- prior.pp/posterior.pp
       
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of alpha < 0}
-      
-      propposterior_less <- sum(alpha<0)/length(alpha)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(alpha)
-      }
-      
-      propposterior_greater <- sum(alpha>0)/length(alpha)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(alpha)
-      }
-      
-      BF21a_less <- 2*propposterior_less
-      BF21a_greater <- 2*propposterior_greater
     } 
     
     #--------------------------------------------------------
     
     # one-sided test?
+    
+    # save BF for one-tailed test
+    # BF21 = 2*{proportion posterior samples of alpha < 0}
+    propposterior_less <- sum(alpha<0)/length(alpha)
+    propposterior_greater <- sum(alpha>0)/length(alpha)
+    
+    # posterior proportion cannot be zero, because this renders a BF of zero
+    # none of the samples of the parameter follow the restriction
+    # ergo: the posterior proportion is smaller than 1/length(parameter)
+    
+    if(propposterior_less==0){
+      propposterior_less <- 1/length(alpha)
+    }
+    
+    if(propposterior_greater==0){
+      propposterior_greater <- 1/length(alpha)
+    }
+    
+    BF21a_less <- 2*propposterior_less
+    BF21a_greater <- 2*propposterior_greater
     
     if(alternativeA[1]=="less"){
       # BF10 = p(D|a~cauchy(0,1))/p(D|a=0)
@@ -366,12 +334,6 @@ model
         # BAYES FACTOR BETA
         BFb <- 1/(mydt(0,muB,sigmaB,nuB)/dcauchy(0))
         
-        # save BF for one-tailed test
-        # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21b_less <- 2*pt((0-muB)/sigmaB,nuB,lower.tail=TRUE)/sigmaB
-        BF21b_greater <- 2*pt((0-muB)/sigmaB,nuB,lower.tail=FALSE)/sigmaB
-        
-        
       } else {
         
         warning("fit.st did not converge, alternative optimization method was used.","\n")
@@ -393,11 +355,6 @@ model
         
         # ALTERNATIVE BAYES FACTOR BETA
         BFb <- 1/(mydt2(0,mB,sB,dfB)/dcauchy(0))
-        
-        # save BF for one-tailed test
-        # BF21 = 2*{proportion posterior samples of beta < 0}
-        BF21b_less <- 2*pt((0-mB)/sB,dfB,lower.tail=TRUE)/sB
-        BF21b_greater <- 2*pt((0-mB)/sB,dfB,lower.tail=FALSE)/sB
       }
       
       #-------------------------
@@ -406,38 +363,12 @@ model
       
       BFb <- 1/(dnorm(0,mean(beta),sd(beta))/dcauchy(0)) 
       
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of beta < 0}
-      BF21b_less <- 2*pnorm(0,lower.tail=TRUE)
-      BF21b_greater <- 2*pnorm(0,lower.tail=FALSE)
-      
       #-------------------------
       
     } else if(SDmethod[1]=="splinefun"){
       f <- splinefun(density(beta))
       BFb <- 1/(f(0)/dcauchy(0))
-            
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of beta < 0}
-      propposterior_less <- sum(beta<0)/length(beta)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(beta)
-      }
-      
-      propposterior_greater <- sum(beta>0)/length(beta)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(beta)
-      }
-      
-      BF21b_less <- 2*propposterior_less
-      BF21b_greater <- 2*propposterior_greater
-      
+       
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){
@@ -446,32 +377,31 @@ model
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BFb           <- prior.pp/posterior.pp
       
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of beta < 0}
-      propposterior_less <- sum(beta<0)/length(beta)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(beta)
-      }
-      
-      propposterior_greater <- sum(beta>0)/length(beta)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(beta)
-      }
-      
-      BF21b_less <- 2*propposterior_less
-      BF21b_greater <- 2*propposterior_greater
-      
     }
     
     #-------------------------------------------------------
     
     # one-sided test?
+    
+    # save BF for one-tailed test
+    # BF21 = 2*{proportion posterior samples of beta < 0}
+    propposterior_less <- sum(beta<0)/length(beta)
+    propposterior_greater <- sum(beta>0)/length(beta)
+    
+    # posterior proportion cannot be zero, because this renders a BF of zero
+    # none of the samples of the parameter follow the restriction
+    # ergo: the posterior proportion is smaller than 1/length(parameter)
+    
+    if(propposterior_less==0){
+      propposterior_less <- 1/length(beta)
+    }
+    
+    if(propposterior_greater==0){
+      propposterior_greater <- 1/length(beta)
+    }
+    
+    BF21b_less <- 2*propposterior_less
+    BF21b_greater <- 2*propposterior_greater
     
     if(alternativeB[1]=="less"){
       # BF10 = p(D|b~cauchy(0,1))/p(D|b=0)
@@ -513,6 +443,8 @@ model
     #=========================================
     
     EM <- prob_a*prob_b
+    BF.EM <- EM/(1-EM)
+    
     
     #=========================================
     # FULL OR PARTIAL MEDIATION
@@ -536,13 +468,7 @@ model
         
         # BAYES FACTOR TAU
         BFt_accent <- 1/(mydt(0,muT,sigmaT,nuT)/dcauchy(0))
-        
-        # save BF for one-tailed test
-        # BF21 = 2*{proportion posterior samples of TAU < 0}
-        BF21t_less <- 2*pt((0-muT)/sigmaT,nuT,lower.tail=TRUE)/sigmaT
-        BF21t_greater <- 2*pt((0-muT)/sigmaT,nuT,lower.tail=FALSE)/sigmaT
-        
-        
+              
       } else {
         
         warning("fit.st did not converge. Alternative optimization method was used.","\n")
@@ -564,11 +490,7 @@ model
         
         # ALTERNATIVE BAYES FACTOR TAU
         BFt_accent <- 1/(mydt2(0,mT,sT,dfT)/dcauchy(0))
-        
-        # save BF for one-tailed test
-        # BF21 = 2*{proportion posterior samples of tau < 0}
-        BF21t_less <- 2*pt((0-mT)/sT,dfT,lower.tail=TRUE)/sT
-        BF21t_greater <- 2*pt((0-mT)/sT,dfT,lower.tail=FALSE)/sT
+       
       }
       
       #-------------------------
@@ -576,38 +498,12 @@ model
     } else if(SDmethod[1]=="dnorm"){
       BFt_accent <- 1/(dnorm(0,mean(tau_accent),sd(tau_accent))/dcauchy(0))  
       
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of tau < 0}
-      BF21t_less <- 2*pnorm(0,lower.tail=TRUE)
-      BF21t_greater <- 2*pnorm(0,lower.tail=FALSE)
-      
       #-------------------------
       
     } else if(SDmethod[1]=="splinefun"){
       f <- splinefun(density(tau_accent))
       BFt_accent <- 1/(f(0)/dcauchy(0))
-      
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of tau < 0}
-      propposterior_less <- sum(tau_accent<0)/length(tau_accent)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(tau_accent)
-      }
-      
-      propposterior_greater <- sum(tau_accent>0)/length(tau_accent)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(tau_accent)
-      }
-      
-      BF21t_less <- 2*propposterior_less
-      BF21t_greater <- 2*propposterior_greater
-      
+     
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){
@@ -616,31 +512,33 @@ model
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BFt_accent <- prior.pp/posterior.pp
       
-      # save BF for one-tailed test
-      # BF21 = 2*{proportion posterior samples of tau < 0}
-      propposterior_less <- sum(tau_accent<0)/length(tau_accent)
-      
-      # posterior proportion cannot be zero, because this renders a BF of zero
-      # none of the samples of the parameter follow the restriction
-      # ergo: the posterior proportion is smaller than 1/length(parameter)
-      
-      if(propposterior_less==0){
-        propposterior_less <- 1/length(tau_accent)
-      }
-      
-      propposterior_greater <- sum(tau_accent>0)/length(tau_accent)
-      
-      if(propposterior_greater==0){
-        propposterior_greater <- 1/length(tau_accent)
-      }
-      
-      BF21t_less <- 2*propposterior_less
-      BF21t_greater <- 2*propposterior_greater
     }
     
     #------------------------------------------------------------
     
     # one-sided test?
+    
+    # save BF for one-tailed test
+    # BF21 = 2*{proportion posterior samples of tau < 0}
+    propposterior_less <- sum(tau_accent<0)/length(tau_accent)
+    propposterior_greater <- sum(tau_accent>0)/length(tau_accent)
+    
+    
+    # posterior proportion cannot be zero, because this renders a BF of zero
+    # none of the samples of the parameter follow the restriction
+    # ergo: the posterior proportion is smaller than 1/length(parameter)
+    
+    if(propposterior_less==0){
+      propposterior_less <- 1/length(tau_accent)
+    }
+      
+    if(propposterior_greater==0){
+      propposterior_greater <- 1/length(tau_accent)
+    }
+    
+    BF21t_less <- 2*propposterior_less
+    BF21t_greater <- 2*propposterior_greater
+    
     
     if(alternativeT[1]=="less"){
       # BF10 = p(D|t~cauchy(0,1))/p(D|t=0)
@@ -676,11 +574,6 @@ model
       prob_t_accent <- prob_t_accent + .Machine$double.eps
     }
     
-    E.FM <- prob_a*prob_b*(1-prob_t_accent)
-    
-    # BFs mediation and full mediation
-    BF.EM <- EM/(1-EM)
-    BF.E.FM <- E.FM/(1-E.FM)
     
     #===============================================================
     
@@ -722,7 +615,7 @@ model
                    jagssamplesTB=jagssamplesTB)
     
   
-    class(result) <- c("JZSMedSD","list")
+    class(result) <- c("jzs_med","list")
     class(result$main_result) <- c("JZSMed","data.frame")
     class(result$jagssamplesA) <- "rjags"
     class(result$jagssamplesTB) <- "rjags"

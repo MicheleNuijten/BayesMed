@@ -165,45 +165,22 @@ result
 #
 #############
 
-# inspect posterior distribution for the coefficients
-plot(result$alpha_samples)
-plot(result$beta_samples)
-plot(result$tau_prime_samples)
+#------------------------------------------
 
-# print a traceplot of the chains
-plot(result$jagssamplesA)
-plot(result$jagssamplesTB) 
-# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
-
-# calculate and plot a 95\% credible interval for the 
-# posterior mean of the indirect effect
-result$CI_ab
-plot(result$ab_samples)
-
-#----------------------------
-
-# Firefighter data
+# load Firefighter data
 data(Firefighters)
 
 X <- Firefighters$x
-Y <- Firefighters$y
 M <- Firefighters$m
+Y <- Firefighters$y
 
 # run jzs_medSD
 result <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 
-# NOTE:
-# If jzs_medSD does not converge the first time you run it,
-# run the exact same code again, usually it will converge the 
-# second time.
-
-# print result
-result
-
-# plot the result
+# plot the result in a mediation diagram
 plot(result$main_result)
 
-# inspect posterior distribution for the coefficients
+# inspect posterior distribution of the coefficients
 plot(result$alpha_samples)
 plot(result$beta_samples)
 plot(result$tau_prime_samples)
@@ -217,5 +194,7 @@ plot(result$jagssamplesTB)
 # posterior mean of the indirect effect
 result$CI_ab
 plot(result$ab_samples)
+
+
 }
 }

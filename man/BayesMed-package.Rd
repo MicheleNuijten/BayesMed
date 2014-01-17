@@ -30,7 +30,9 @@ Nuijten, M. B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (201
 Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
 
 }
-
+\note{
+This function requires the program "JAGS" (Just Another Gibbs Sampler) to be in the PATH variable. This program can be obtained from http://mcmc-jags.sourceforge.net.
+}
 \examples{
 \dontrun{
 # simulate mediational data
@@ -46,20 +48,6 @@ Y <- .3*X + .6*M + rnorm(50,0,1)
 result <- jzs_med(independent=X,dependent=Y,mediator=M)
 result
 
-# plot results
-plot(result)
-
-###########
-
-# run jzs_medSD to perform the Savage-Dickey (SD) Bayesian hypothesis test for mediation
-# advantages of the SD method are:
-      # the possibility to test parameters one-sided
-      # the possibility to estimate the posterior distributions of the parameters
-
-
-result_SD <- jzs_medSD(independent=X,dependent=Y,mediator=M)
-result_SD
-
 ### NOTE ###
 #Sometimes this error will pop up:
 #
@@ -73,6 +61,20 @@ result_SD
 #If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
 #
 #############
+
+# plot results
+plot(result$main_result)
+
+###########
+
+# run jzs_medSD to perform the Savage-Dickey (SD) Bayesian hypothesis test for mediation
+# advantages of the SD method are:
+      # the possibility to test parameters one-sided
+      # the possibility to estimate the posterior distributions of the parameters
+
+
+result_SD <- jzs_medSD(independent=X,dependent=Y,mediator=M)
+result_SD
 
 # plot(results)
 plot(result_SD$main_result)
