@@ -4,7 +4,7 @@
 Plot the posterior distribution of the indirect effect alpha*beta
 }
 \description{
-Plot the posterior distribution of the indirect effect alpha*beta including a 95\% credible interval around the mean of the posterior (see Nuijten et al. (in preparation); Yuan & MacKinnon, 2009).
+Plot the posterior distribution of the indirect effect alpha*beta including a 95\% credible interval around the mean of the posterior (see Nuijten et al. (2014); Yuan & MacKinnon, 2009).
 }
 \usage{
 \method{plot}{CI}(x,\dots)
@@ -18,7 +18,7 @@ additional arguments to be passed on to the plot method, such as graphical param
 }
 }
 \references{
-Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (in preparation). A default Bayesian hypothesis test for mediation. 
+Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (2014). A default Bayesian hypothesis test for mediation. Manuscript submitted for publication. 
 
 Yuan, Y., & MacKinnon, D. (2009). Bayesian mediation analysis. Psychological Methods, 14, 301-322.
 }

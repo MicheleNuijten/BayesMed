@@ -5,7 +5,7 @@
 Data from a study of health promotion of firefighters
 }
 \description{
-Data from a study of health promotion of firefighters (Elliot et al., 2007). 
+Data from a study of health promotion of firefighters (Elliot et al., 2007). These data are used as an example to explain mediation in Yuan and MacKinnon (2009) and Nuijten et al. (2014).
 }
 \usage{data(Firefighters)}
 \format{
@@ -24,6 +24,8 @@ Elliot, D. L., Goldberg, L., Kuehl, K. S., Moe, E. L., Breger, R. K. R., Pickeri
 }
 \references{
 Elliot, D. L., Goldberg, L., Kuehl, K. S., Moe, E. L., Breger, R. K. R., Pickering, M. A. (2007). The PHLAME (Promoting Healthy Lifestyles: Alternative Models' Effects) Firefighter Study: Outcomes of Two Models of Behavior Change. JOEM, 49, 204-213.
+
+Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (2014). A default Bayesian hypothesis test for mediation. Manuscript submitted for publication.
 
 Yuan, Y., & MacKinnon, D. (2009). Bayesian mediation analysis. Psychological Methods, 14 , 301-322.
 

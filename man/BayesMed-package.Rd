@@ -5,7 +5,7 @@
 A default Bayesian hypothesis test for mediation, correlation, and partial correlation.
 }
 \description{
-This package can be used to perform a default Bayesian hypothesis test for mediation, correlation, and partial correlation, either analytically or through the Savage-Dickey method (Dickey & Lientz, 1970). All tests make use of a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008). 
+This package can be used to perform a default Bayesian hypothesis test for mediation, correlation, and partial correlation, either analytically or through the Savage-Dickey method (Dickey & Lientz, 1970). All tests make use of a Jeffreys-Zellner-Siow prior set-up (Liang et al., 2008). This package is based on the paper by Nuijten, Wetzels, Matzke, Dolan, and Wagenmakers (under review).
 }
 \details{
 \tabular{ll}{
@@ -25,11 +25,10 @@ Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp hypo
 
 Liang, F., Paulo, R., Molina, G., Clyde, M. A., & Berger, J. O. (2008). Mixtures of g priors for Bayesian variable selection. Journal of the American Statistical Association, 103(481), 410-423.
 
-<<<<<<< HEAD
+Nuijten, M. B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (2014). A default Bayesian hypothesis test for mediation. Manuscript submitted for publication.
+
 Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
-=======
-Wetzels, R., & Wagenmakers, E.-J. (2012). A Default Bayesian Hypothesis Test for Correlations and Partial Correlations. Psychonomic Bulletin & Review, 19, 1057-1064.
->>>>>>> 90e9273e9a0a4fc244e85717f7e685a356734072
+
 }
 
 \examples{
