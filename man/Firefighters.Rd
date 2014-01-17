@@ -5,7 +5,6 @@
 Data from a study of health promotion of firefighters
 }
 \description{
-<<<<<<< HEAD
 Data from a study of health promotion of firefighters (Elliot et al., 2007). These data are also used as an example in the Bayesian mediation paper of Yuan and MacKinnon (2009) and Nuijten et al. (2014).
 }
 \usage{data(Firefighters)}
@@ -38,6 +37,8 @@ data(Firefighters)
 # mediation analysis
 result <- jzs_med(Firefighters$x,Firefighters$y,Firefighters$m)
 result
+
+### Note that the Bayes factor is 1.96, instead of 1.94 as reported in the paper (Nuijten et al., 2014). This is caused by rounding differences; the posterior probabilities are equal.
 
 # underlying mediational model with path weights and posterior probabilities
 plot(result$main_result)

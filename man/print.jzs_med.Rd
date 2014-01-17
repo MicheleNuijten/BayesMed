@@ -12,7 +12,7 @@ Print the output of a jzs_med object.
 }
 \arguments{
   \item{x}{
-a JZSMedSD object.
+a jzs_med object.
 }
   \item{\dots}{
 further arguments passed to or from other methods.
@@ -54,8 +54,8 @@ X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
 Y <- t_prime*X + b*M + rnorm(50,0,1)
 
-# run jzs_medSD
-result <- jzs_medSD(independent=X,dependent=Y,mediator=M,SDmethod='dnorm')
+# run jzs_med
+result <- jzs_med(independent=X,dependent=Y,mediator=M,SDmethod='dnorm')
 
 # print result
 result

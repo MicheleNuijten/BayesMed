@@ -43,7 +43,6 @@ Y <- .3*X + .6*M + rnorm(50,0,1)
 ###########
 
 # run jzs_med to perform the Bayesian hypothesis test for mediation
-# jzs_med is an analytical test and is faster than jzs_medSD
 
 result <- jzs_med(independent=X,dependent=Y,mediator=M)
 result
@@ -65,13 +64,22 @@ result
 # plot results
 plot(result$main_result)
 
+# plot posterior samples including credible interval, mean, and median of the indirect effect alpha*beta
+plot(result$ab_samples)
+
+# inspect separate posterior distributions of alpha, beta, and tau_prime
+plot(result$alpha_samples)
+plot(result$beta_samples)
+plot(result$tau_prime_samples)
+
+# print a traceplot of the chains
+# where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
+plot(result$jagssamplesA)
+plot(result$jagssamplesTB) 
+
 ###########
 
 # run jzs_medSD to perform the Savage-Dickey (SD) Bayesian hypothesis test for mediation
-# advantages of the SD method are:
-      # the possibility to test parameters one-sided
-      # the possibility to estimate the posterior distributions of the parameters
-
 
 result_SD <- jzs_medSD(independent=X,dependent=Y,mediator=M)
 result_SD
@@ -89,7 +97,7 @@ plot(result_SD$tau_prime_samples)
 
 # print a traceplot of the chains
 # where the first chain (theta[1]) is for tau' and the second chain (theta[2]) for beta
-plot(result$jagssamplesA)
-plot(result$jagssamplesTB) 
+plot(result_SD$jagssamplesA)
+plot(result_SD$jagssamplesTB) 
 }
 }
