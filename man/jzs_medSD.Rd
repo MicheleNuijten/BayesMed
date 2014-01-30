@@ -161,7 +161,9 @@ result
 #In jzs_medSD(X, Y, M) :
 #  fit.st did not converge. Alternative optimization method was used.
 #  
-#If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
+#If this happens, just run jzs_medSD() again. 
+#This usually solves the convergence problem. If it does not,
+#try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
 #
 #############
 

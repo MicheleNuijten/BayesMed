@@ -58,7 +58,9 @@ result
 #In jzs_medSD(X, Y, M) :
 #  fit.st did not converge. Alternative optimization method was used.
 #  
-#If this happens, just run jzs_medSD() again. This usually solves the convergence problem. If it does #not, try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
+#If this happens, just run jzs_medSD() again. 
+#This usually solves the convergence problem. If it does not,
+#try a different SD method. For instance: jzs_medSD(X,Y,M,SDmethod="dnorm").
 #
 #############
 
@@ -79,7 +81,8 @@ result_SD
 # plot(results)
 plot(result_SD$main_result)
 
-# plot posterior samples including credible interval, mean, and median of the indirect effect alpha*beta
+# plot posterior samples 
+# including credible interval, mean, and median of the indirect effect alpha*beta
 plot(result_SD$ab_samples)
 
 # inspect separate posterior distributions of alpha, beta, and tau_prime
