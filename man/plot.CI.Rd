@@ -39,8 +39,8 @@ X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
 Y <- t_prime*X + b*M + rnorm(50,0,1)
 
-# run jzs_medSD
-res <- jzs_medSD(independent=X,dependent=Y,mediator=M)
+# run jzs_med
+res <- jzs_med(independent=X,dependent=Y,mediator=M)
 
 # plot posterior distribution of a*b
 plot(res$ab_samples)

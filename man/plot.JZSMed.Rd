@@ -38,8 +38,8 @@ X <- rnorm(50,0,1)
 M <- a*X + rnorm(50,0,1)
 Y <- t_prime*X + b*M + rnorm(50,0,1)
 
-# save jzs_medSD output
-res <- jzs_medSD(independent=X,dependent=Y,mediator=M)
+# save jzs_med output
+res <- jzs_med(independent=X,dependent=Y,mediator=M)
 
 # plot results
 plot(res$main_result)
