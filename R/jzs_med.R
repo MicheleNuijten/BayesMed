@@ -48,7 +48,9 @@ jzs_med <-
     # now we can get the information for both beta and tau out of one and the same model
     
     # function to analytically calculate the BF for partial correlation
-    # see Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
+    # see Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review, 19, 1057-1064
+    # the jzs_partcorbf function is based on updated R code that can handle larger values of n
+    
     jzs_partcor_basic <- function(V1,V2,control,standardize=TRUE){
       
       # standardize variables
@@ -64,14 +66,17 @@ jzs_med <-
       p1 <- 2
       n  <- length(V1)
       
-      jzs_partcorbf <- function(r0,r1,p0,p1,n){
-        int <- function(r,n,p,g){
-          a <- .5*((n-1-p)*log(1+g)-(n-1)*log(1+g*(1-r^2)))
-          exp(a)*dinvgamma(g,shape=.5,scale=n/2)
+      jzs_partcorbf=function(r0,r1,p0,p1,n){
+        int=function(r,n,p,g){
+          exp(
+            ((n-1-p)/2)*log(1+g)+
+              (-(n-1)/2)*log(1+(1-r^2)*g)+
+              (-3/2)*log(g)+
+              -n/(2*g))
         }
-        bf10 <- integrate(int,lower=0,upper=Inf,r=r1,p=p1,n=n)$value/
+        bf10=integrate(int,lower=0,upper=Inf,r=r1,p=p1,n=n)$value/
           integrate(int,lower=0,upper=Inf,r=r0,p=p0,n=n)$value
-        return(bf10)
+        return(bf10)	
       }
       
       BF <- jzs_partcorbf(r0,r1,p0,p1,n)
