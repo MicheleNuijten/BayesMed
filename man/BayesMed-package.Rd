@@ -25,7 +25,7 @@ Dickey, J. M., & Lientz, B. P. (1970). The weighted likelihood ratio, sharp hypo
 
 Liang, F., Paulo, R., Molina, G., Clyde, M. A., & Berger, J. O. (2008). Mixtures of g priors for Bayesian variable selection. Journal of the American Statistical Association, 103(481), 410-423.
 
-Nuijten, M. B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (2014). A default Bayesian hypothesis test for mediation. Manuscript submitted for publication.
+Nuijten, M. B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (2014). A default Bayesian hypothesis test for mediation. Behavior Research Methods. doi: 10.3758/s13428-014-0470-2
 
 Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review.
 
@@ -66,7 +66,8 @@ result
 # plot results
 plot(result$main_result)
 
-# plot posterior samples including credible interval, mean, and median of the indirect effect alpha*beta
+# plot posterior samples including credible interval, mean, and median 
+# of the indirect effect alpha*beta
 plot(result$ab_samples)
 
 # inspect separate posterior distributions of alpha, beta, and tau_prime
