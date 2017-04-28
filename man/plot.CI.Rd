@@ -18,7 +18,7 @@ additional arguments to be passed on to the plot method, such as graphical param
 }
 }
 \references{
-Nuijten, M.B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (2014). A default Bayesian hypothesis test for mediation. Manuscript submitted for publication. 
+Nuijten, M. B., Wetzels, R., Matzke, D., Dolan, C. V., & Wagenmakers, E.-J. (2014). A default Bayesian hypothesis test for mediation. Behavior Research Methods. doi: 10.3758/s13428-014-0470-2
 
 Yuan, Y., & MacKinnon, D. (2009). Bayesian mediation analysis. Psychological Methods, 14, 301-322.
 }
