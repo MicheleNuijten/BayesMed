@@ -200,12 +200,12 @@ jzs_cor <-
     res <- list(Correlation=mean(cor_coef),
                 BayesFactor=BF,
                 PosteriorProbability=prob_r,
-                coer_coef_samples=cor_coef,
+                cor_coef_samples=cor_coef,
                 jagssamples=jagssamples)
     
     class(res) <- c("jzs_med","list")
     class(res$jagssamples) <- "rjags"
-    class(res$alpha_samples) <- "CI"
+    class(res$cor_coef_samples) <- "CI"
     
     return(res)
   }
