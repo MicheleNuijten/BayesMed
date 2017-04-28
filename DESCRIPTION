@@ -1,7 +1,7 @@
 Package: BayesMed
 Type: Package
 Title: Default Bayesian Hypothesis Tests for Correlation, Partial Correlation, and Mediation
-Version: 1.2.1
+Version: 1.2.2
 Date: 2017-03-17
 Author: Michele B. Nuijten, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers
 Maintainer: Michele B. Nuijten <m.b.nuijten@uvt.nl>
