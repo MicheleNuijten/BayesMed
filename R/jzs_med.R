@@ -74,8 +74,21 @@ jzs_med <-
               (-3/2)*log(g)+
               -n/(2*g))
         }
-        bf10=integrate(int,lower=0,upper=Inf,r=r1,p=p1,n=n)$value/
-          integrate(int,lower=0,upper=Inf,r=r0,p=p0,n=n)$value
+        bf10 <- try(integrate(int,lower=0,upper=Inf,r=r1,p=p1,n=n)$value/
+                      integrate(int,lower=0,upper=Inf,r=r0,p=p0,n=n)$value)
+        
+        # if the evidence is overwhelming, the BF will become infinite
+        # to avoid this resulting in an error, give back the max possible number
+        if(class(bf10)=="try-error" & grepl("non-finite function value",bf10[1])){
+          bf10 <- .Machine$double.xmax
+          message("Note: the Error above was caused because the BF from the function jzs_partcorbf was approaching infinity. To avoid the function from crashing, the returned BF is the largest possible number in R.")
+        } else {
+          if(class(bf10)=="try-error" & !grepl("non-finite function value",bf10[1])){
+            bf10 <- NA
+            message("An error occurred. The BF could not be calculated")
+          }
+        }
+        
         return(bf10)	
       }
       
