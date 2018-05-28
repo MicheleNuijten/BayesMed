@@ -11,8 +11,8 @@ This package can be used to perform a default Bayesian hypothesis test for media
 \tabular{ll}{
 Package: \tab BayesMed\cr
 Type: \tab Package\cr
-Version: \tab 0.1.0\cr
-Date: \tab 2012-07-31\cr
+Version: \tab 1.2.2\cr
+Date: \tab 2018-05-28\cr
 License: \tab GPL-2\cr
 }
 The main functions \code{jzs_med} and \code{jzs_medSD} can be used to establish and test mediation in a data set. With \code{jzs_cor} and \code{jzs_corSD} you can establish and test correlation, and with jzs_partcor and jzs_partcorSD partial correlation. 
