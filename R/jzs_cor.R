@@ -10,7 +10,7 @@ jzs_cor <-
       X <- (V1-mean(V1))/sd(V1)
       Y <- (V2-mean(V2))/sd(V2)
     }else {
-      M <- V1
+      X <- V1
       Y <- V2
     }
     
