@@ -38,7 +38,7 @@ jzs_med <-
     
     BFa <- res_alpha$BayesFactor
     prob_a <- res_alpha$PosteriorProbability
-    alpha <- res_alpha$alpha
+    alpha <- res_alpha$cor_coef_samples
     jagssamplesA <- res_alpha$jagssamples
     
     #==========================================================
