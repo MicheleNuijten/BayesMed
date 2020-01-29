@@ -1,7 +1,7 @@
 jzs_cor <-
-  function(V1,V2,
-           alternative=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500,standardize=TRUE){
+  function(V1, V2, 
+           alternative = c("two.sided","less","greater"),
+           n.iter = 10000, n.burnin = 500, standardize = TRUE, subdivisions = 200){
     
     runif(1) # defines .Random.seed
     
@@ -31,7 +31,7 @@ jzs_cor <-
       }
       
       bf10 <- try(sqrt((n/2))/gamma(1/2)*
-        integrate(int,lower=0,upper=Inf,r=r,n=n)$value)
+        integrate(int, lower = 0, upper = Inf, r = r, n = n, subdivisions = subdivisions)$value)
       
       # if the evidence is overwhelming, the BF will become infinite
       # to avoid this resulting in an error, give back the max possible number
