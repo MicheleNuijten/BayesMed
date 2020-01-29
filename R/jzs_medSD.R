@@ -1,6 +1,6 @@
 jzs_medSD <-
   function(independent,dependent,mediator,
-           SDmethod=c("fit.st","dnorm","splinefun","logspline"),
+           SDmethod=c("dnorm","splinefun","logspline", "fit.st"),
            alternativeA=c("two.sided","less","greater"),
            alternativeB=c("two.sided","less","greater"),
            alternativeT=c("two.sided","less","greater"),
@@ -173,7 +173,7 @@ model
       mydt <- function(x, m, s, df) dt((x-m)/s, df)/s
       
       foo <- try({
-        fit.t1 <- fit.st(alpha)
+        fit.t1 <- QRM::fit.st(alpha)
         nuA    <- as.numeric(fit.t1$par.ests[1]) #degrees of freedom
         muA    <- as.numeric(fit.t1$par.ests[2]) 
         sigmaA <- abs(as.numeric(fit.t1$par.ests[3])) # This is a hack -- with high n occasionally
@@ -229,8 +229,8 @@ model
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){
-      fit.posterior <- logspline(alpha)
-      posterior.pp  <- dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
+      fit.posterior <- polspline::logspline(alpha)
+      posterior.pp  <- polspline::dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BFa           <- prior.pp/posterior.pp
       
@@ -322,7 +322,7 @@ model
     if(SDmethod[1]=="fit.st"){
       
       bar <- try({
-        fit.t2 <- fit.st(beta)
+        fit.t2 <- QRM::fit.st(beta)
         nuB    <- as.numeric(fit.t2$par.ests[1]) #degrees of freedom
         muB    <- as.numeric(fit.t2$par.ests[2]) 
         sigmaB <- abs(as.numeric(fit.t2$par.ests[3])) # This is a hack -- with high n occasionally
@@ -372,8 +372,8 @@ model
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){
-      fit.posterior <- logspline(beta)
-      posterior.pp  <- dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
+      fit.posterior <- polspline::logspline(beta)
+      posterior.pp  <- polspline::dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BFb           <- prior.pp/posterior.pp
       
@@ -457,7 +457,7 @@ model
     if(SDmethod[1]=="fit.st"){
       
       baz <- try({
-        fit.t3 <- fit.st(tau_accent)
+        fit.t3 <- QRM::fit.st(tau_accent)
         nuT    <- as.numeric(fit.t3$par.ests[1]) #degrees of freedom
         muT    <- as.numeric(fit.t3$par.ests[2]) 
         sigmaT <- abs(as.numeric(fit.t3$par.ests[3])) # This is a hack -- with high n occasionally
@@ -507,8 +507,8 @@ model
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){
-      fit.posterior <- logspline(tau_accent)
-      posterior.pp  <- dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
+      fit.posterior <- polspline::logspline(tau_accent)
+      posterior.pp  <- polspline::dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BFt_accent <- prior.pp/posterior.pp
       

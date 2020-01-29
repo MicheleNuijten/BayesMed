@@ -9,7 +9,7 @@ This function can be used to perform a default Bayesian hypothesis test for corr
 }
 \usage{
 jzs_corSD(V1, V2, 
-          SDmethod = c("fit.st", "dnorm", "splinefun", "logspline"), 
+          SDmethod = c("dnorm", "splinefun", "logspline", "fit.st"), 
           alternative = c("two.sided", "less", "greater"),
           n.iter=10000,n.burnin=500, standardize=TRUE)
 }

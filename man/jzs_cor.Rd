@@ -10,7 +10,7 @@ This function can be used to perform a default Bayesian hypothesis test for corr
 \usage{
 jzs_cor(V1, V2,
         alternative = c("two.sided", "less", "greater"),
-        n.iter=10000,n.burnin=500,standardize=TRUE)
+        n.iter=10000,n.burnin=500,standardize=TRUE, subdivisions = 200)
 }
 \arguments{
   \item{V1}{
@@ -30,6 +30,9 @@ specify the alternative hypothesis for the correlation coefficient: \code{two.si
 }
   \item{standardize}{
   logical. Should the variables be standardized? Defaults to TRUE. 
+}
+  \item{subdivisions}{
+  the maximum number of subdivisions. Defaults to 200. 
 }
 }
 \details{

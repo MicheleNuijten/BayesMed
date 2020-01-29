@@ -1,6 +1,6 @@
 jzs_partcorSD <- 
   function(V1,V2,control,
-           SDmethod=c("fit.st","dnorm","splinefun","logspline"),
+           SDmethod=c("dnorm","splinefun","logspline","fit.st"),
            alternative=c("two.sided","less","greater"),
            n.iter=10000,n.burnin=500,
            standardize=TRUE){
@@ -114,7 +114,7 @@ model
       mydt <- function(x, m, s, df) dt((x-m)/s, df)/s
       
       bar <- try({
-        fit.t <- fit.st(beta)
+        fit.t <- QRM::fit.st(beta)
         nu    <- as.numeric(fit.t$par.ests[1]) #degrees of freedom
         mu    <- as.numeric(fit.t$par.ests[2]) 
         sigma <- abs(as.numeric(fit.t$par.ests[3])) # This is a hack -- with high n occasionally
@@ -164,8 +164,8 @@ model
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){
-      fit.posterior <- logspline(beta)
-      posterior.pp  <- dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
+      fit.posterior <- polspline::logspline(beta)
+      posterior.pp  <- polspline::dlogspline(0, fit.posterior) # this gives the pdf at point b2 = 0
       prior.pp      <- dcauchy(0)                   # height of prior at b2 = 0
       BF           <- prior.pp/posterior.pp
         

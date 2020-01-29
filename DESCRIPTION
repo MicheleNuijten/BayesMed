@@ -5,8 +5,8 @@ Version: 1.2.3
 Date: 2020-1-29
 Author: Michele B. Nuijten, Ruud Wetzels, Dora Matzke, Conor V. Dolan, and Eric-Jan Wagenmakers
 Maintainer: Michele B. Nuijten <m.b.nuijten@uvt.nl>
-Depends: R (>= 3.6.1)
-Imports: R2jags
-Suggests: MCMCpack, QRM, polspline
-Description: Default Bayesian hypothesis tests for correlation, partial correlation, and mediation
+Depends: R (>= 3.6)
+Imports: R2jags, polspline
+Suggests: MCMCpack, QRM
+Description: Default Bayesian hypothesis tests for correlation, partial correlation, and mediation.
 License: GPL-2

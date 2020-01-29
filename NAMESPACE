@@ -9,6 +9,9 @@ S3method(plot,JZSMed)
 S3method(plot,rjags)
 S3method(plot,CI)
 import(R2jags)
-import(QRM)
-import(polspline) 
-import(MCMCpack)
+import(polspline)
+importFrom("graphics", "abline", "arrows", "hist", "legend", "par",
+               "plot", "points", "text")
+importFrom("stats", "cor", "dcauchy", "density", "dnorm", "dt",
+               "integrate", "lm", "median", "optim", "pt", "quantile",
+               "runif", "sd", "splinefun")

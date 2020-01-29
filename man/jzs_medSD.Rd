@@ -8,7 +8,7 @@ This function can be used to perform a default Bayesian hypothesis test for medi
 }
 \usage{
 jzs_medSD(independent, dependent, mediator, 
-          SDmethod=c("fit.st","dnorm","splinefun","logspline"), 
+          SDmethod=c("dnorm","splinefun","logspline", "fit.st"), 
           alternativeA=c("two.sided","less","greater"), 
           alternativeB=c("two.sided","less","greater"), 
           alternativeT=c("two.sided","less","greater"),
