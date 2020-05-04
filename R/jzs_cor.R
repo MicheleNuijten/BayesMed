@@ -26,7 +26,7 @@ jzs_cor <-
     # load JAGS models
     #==========================================================
     
-    jags.model.file1 <- system.file("jags", "jags-model-correlation.txt", 
+    jags_model_correlation <- system.file("jags", "jags-model-correlation.txt", 
                                     package = "BayesMed")
     
     #========================================================================
@@ -48,7 +48,7 @@ jzs_cor <-
     jagssamples <- R2jags::jags(data = jags.data, inits=jags.inits, jags.params, 
                                 n.chains = 3, n.iter = n.iter, DIC = TRUE,
                                 n.burnin = n.burnin, n.thin = 1, 
-                                model.file = jags.model.file1)
+                                model.file = jags_model_correlation)
     
     # estimate the posterior regression coefficient and scaling factor g
     alpha <- jagssamples$BUGSoutput$sims.list$alpha[,1]

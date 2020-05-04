@@ -31,8 +31,8 @@ jzs_partcor <-
     # load JAGS models
     #==========================================================
     
-    jags.model.file2 <- system.file("jags", 
-                                    "jags-model-partial_correlation.txt", 
+    jags_model_partcor <- system.file("jags", 
+                                      "jags-model-partial_correlation.txt", 
                                     package = "BayesMed")
     
     #==========================================================
@@ -51,11 +51,12 @@ jzs_partcor <-
       list(theta = c(0.3, 0.0)), #chain 2 starting value
       list(theta = c(-.15,.15))) #chain 3 starting value
     
-    jagssamples <- R2jags::jags(data=jags.data, inits=jags.inits, jags.params, 
-                                n.chains=3, n.iter=n.iter, DIC=T,
-                                n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
+    jagssamples <- R2jags::jags(data = jags.data, inits = jags.inits, jags.params, 
+                                n.chains = 3, n.iter = n.iter, DIC = TRUE,
+                                n.burnin = n.burnin, n.thin = 1, 
+                                model.file = jags_model_partcor)
     
-    beta <- jagssamples$BUGSoutput$sims.list$theta[,2]
+    beta <- jagssamples$BUGSoutput$sims.list$theta[ ,2]
     
     #-------------------------------------------------------
     
