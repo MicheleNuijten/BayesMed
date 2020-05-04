@@ -1,0 +1,55 @@
+####### Cauchy-prior on beta and tau' #######
+    model
+    
+{
+    
+    for (i in 1:n)
+    
+{
+    mu[i] <- intercept + theta[1]*x[i,1] + theta[2]*x[i,2]
+    y[i]   ~ dnorm(mu[i],phi)
+    
+}
+    
+    # uninformative prior on intercept alpha, 
+    # Jeffreys' prior on precision phi
+    intercept ~ dnorm(0,.0001)
+    phi   ~ dgamma(.0001,.0001)
+    #phi   ~ dgamma(0.0000001,0.0000001) #JAGS accepts even this
+    #phi   ~ dgamma(0.01,0.01)           #WinBUGS wants this
+    
+    # inverse-gamma prior on g:
+    g       <- 1/invg 
+    a.gamma <- 1/2
+    b.gamma <- n/2    
+    invg     ~ dgamma(a.gamma,b.gamma)
+    
+    # Ntzoufras, I. (2009). Bayesian Modeling Using WinBUGS.
+    # New Jersey: John Wiley & Sons, Inc. p. 167
+    # calculation of the inverse matrix of V
+    inverse.V <- inverse(V)
+    # calculation of the elements of prior precision matrix
+    for(i in 1:2)
+{ 
+    for (j in 1:2)
+{
+    prior.T[i,j] <- inverse.V[i,j] * phi/g
+}
+}
+    # multivariate prior for the beta vector
+    theta[1:2] ~ dmnorm( mu.theta, prior.T )
+    for(i in 1:2) { mu.theta[i] <- 0 }
+    
+}
+    
+    # Explanation-----------------------------------------------------------------
+    # Prior on g:
+    # We know that g ~ inverse_gamma(1/2, n/2), with 1/2 the shape parameter and 
+    # n/2 the scale parameter.
+    # It follows that 1/g ~ gamma(1/2, 2/n).
+    # However, BUGS/JAGS uses the *rate parameterization* 1/theta instead of the
+    # scale parametrization theta. Hence we obtain, in de BUGS/JAGS rate notation:
+    # 1/g ~ dgamma(1/2, n/2)
+    # Also note: JAGS does not want [,] structure
+    #-----------------------------------------------------------------------------
+    

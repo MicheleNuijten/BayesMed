@@ -22,37 +22,6 @@ jzs_partcor <-
     p1 <- 2
     n  <- length(X)
     
-    # main function to analytically calculate the BF for partial correlation
-    # see Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review, 19, 1057-1064
-    # the jzs_partcorbf function is based on updated R code that can handle larger values of n
-    
-    jzs_partcorbf=function(r0,r1,p0,p1,n){
-      int=function(r,n,p,g){
-        exp(
-          ((n-1-p)/2)*log(1+g)+
-            (-(n-1)/2)*log(1+(1-r^2)*g)+
-            (-3/2)*log(g)+
-            -n/(2*g))
-      }
-      
-      bf10 <- try(integrate(int,lower=0,upper=Inf,r=r1,p=p1,n=n)$value/
-        integrate(int,lower=0,upper=Inf,r=r0,p=p0,n=n)$value)
-      
-      # if the evidence is overwhelming, the BF will become infinite
-      # to avoid this resulting in an error, give back the max possible number
-      if(class(bf10)=="try-error" & grepl("non-finite function value",bf10[1])){
-        bf10 <- .Machine$double.xmax
-        message("Note: the Error above was caused because the BF from the function jzs_partcorbf was approaching infinity. To avoid the function from crashing, the returned BF is the largest possible number in R.")
-      } else {
-        if(class(bf10)=="try-error" & !grepl("non-finite function value",bf10[1])){
-          bf10 <- NA
-          message("An error occurred. The BF could not be calculated")
-        }
-      }
-      
-      return(bf10)	
-    }
-    
     BF <- jzs_partcorbf(r0,r1,p0,p1,n)
     
     ### the next part is needed to impose order restrictions
@@ -62,67 +31,9 @@ jzs_partcor <-
     # load JAGS models
     #==========================================================
     
-    
-    jagsmodelpartialcorrelation <- 
-      
-      "####### Cauchy-prior on beta and tau' #######
-    model
-    
-{
-    
-    for (i in 1:n)
-    
-{
-    mu[i] <- intercept + theta[1]*x[i,1] + theta[2]*x[i,2]
-    y[i]   ~ dnorm(mu[i],phi)
-    
-}
-    
-    # uninformative prior on intercept alpha, 
-    # Jeffreys' prior on precision phi
-    intercept ~ dnorm(0,.0001)
-    phi   ~ dgamma(.0001,.0001)
-    #phi   ~ dgamma(0.0000001,0.0000001) #JAGS accepts even this
-    #phi   ~ dgamma(0.01,0.01)           #WinBUGS wants this
-    
-    # inverse-gamma prior on g:
-    g       <- 1/invg 
-    a.gamma <- 1/2
-    b.gamma <- n/2    
-    invg     ~ dgamma(a.gamma,b.gamma)
-    
-    # Ntzoufras, I. (2009). Bayesian Modeling Using WinBUGS.
-    # New Jersey: John Wiley & Sons, Inc. p. 167
-    # calculation of the inverse matrix of V
-    inverse.V <- inverse(V)
-    # calculation of the elements of prior precision matrix
-    for(i in 1:2)
-{ 
-    for (j in 1:2)
-{
-    prior.T[i,j] <- inverse.V[i,j] * phi/g
-}
-}
-    # multivariate prior for the beta vector
-    theta[1:2] ~ dmnorm( mu.theta, prior.T )
-    for(i in 1:2) { mu.theta[i] <- 0 }
-    
-}
-    
-    # Explanation-----------------------------------------------------------------
-    # Prior on g:
-    # We know that g ~ inverse_gamma(1/2, n/2), with 1/2 the shape parameter and 
-    # n/2 the scale parameter.
-    # It follows that 1/g ~ gamma(1/2, 2/n).
-    # However, BUGS/JAGS uses the *rate parameterization* 1/theta instead of the
-    # scale parametrization theta. Hence we obtain, in de BUGS/JAGS rate notation:
-    # 1/g ~ dgamma(1/2, n/2)
-    # Also note: JAGS does not want [,] structure
-    #-----------------------------------------------------------------------------
-    "
-    
-    jags.model.file2 <- tempfile(fileext=".txt")
-    write(jagsmodelpartialcorrelation,jags.model.file2)
+    jags.model.file2 <- system.file("jags", 
+                                    "jags-model-partial_correlation.txt", 
+                                    package = "BayesMed")
     
     #==========================================================
     # BF FOR PARTIAL CORRELATION (MY|X)
@@ -140,9 +51,9 @@ jzs_partcor <-
       list(theta = c(0.3, 0.0)), #chain 2 starting value
       list(theta = c(-.15,.15))) #chain 3 starting value
     
-    jagssamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
-                        n.chains=3, n.iter=n.iter, DIC=T,
-                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
+    jagssamples <- R2jags::jags(data=jags.data, inits=jags.inits, jags.params, 
+                                n.chains=3, n.iter=n.iter, DIC=T,
+                                n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
     
     beta <- jagssamples$BUGSoutput$sims.list$theta[,2]
     
