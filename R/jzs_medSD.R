@@ -219,6 +219,14 @@ jzs_medSD <-
     
     if(SDmethod[1]=="fit.st"){
       
+      # check whether the package QRM is available
+      # if not, return an error
+      if (!requireNamespace("QRM", quietly = TRUE)) {
+        stop("Package \"QRM\" needed for this function to work. Please install 
+             it, or use a different SDmethod.",
+             call. = FALSE)
+      }
+      
       bar <- try({
         fit.t2 <- QRM::fit.st(beta)
         nuB    <- as.numeric(fit.t2$par.ests[1]) #degrees of freedom

@@ -54,6 +54,14 @@ jzs_partcorSD <-
     
     if(SDmethod[1]=="fit.st"){
       
+      # check whether the package QRM is available
+      # if not, return an error
+      if (!requireNamespace("QRM", quietly = TRUE)) {
+        stop("Package \"QRM\" needed for this function to work. Please install 
+             it, or use a different SDmethod.",
+             call. = FALSE)
+      }
+      
       mydt <- function(x, m, s, df) dt((x-m)/s, df)/s
       
       bar <- try({
