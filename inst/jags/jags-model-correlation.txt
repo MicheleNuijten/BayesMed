@@ -1,0 +1,43 @@
+####### Cauchy-prior on single regression coefficient #######
+    model
+    
+{
+    
+    for (i in 1:n)
+    
+{
+    mu[i] <- intercept + alpha*x[i]
+    y[i]   ~ dnorm(mu[i],phi)
+    
+}
+    
+    # uninformative prior on the intercept intercept, 
+    # Jeffreys' prior on precision phi
+    intercept ~ dnorm(0,.0001)
+    phi   ~ dgamma(.0001,.0001)
+    #phi   ~ dgamma(0.0000001,0.0000001) #JAGS accepts even this
+    #phi   ~ dgamma(0.01,0.01)           #WinBUGS wants this
+    
+    # inverse-gamma prior on g:
+    g       <- 1/invg 
+    a.gamma <- 1/2
+    b.gamma <- n/2    
+    invg     ~ dgamma(a.gamma,b.gamma)
+    
+    
+    # g-prior on beta:
+    vari <- (g/phi) * invSigma 
+    prec <- 1/vari
+    alpha    ~ dnorm(0, prec)
+}
+    
+    # Explanation------------------------------------------------------------------ 
+    # Prior on g:
+    # We know that g ~ inverse_gamma(1/2, n/2), with 1/2 the shape
+    # parameter and n/2 the scale parameter.
+    # It follows that 1/g ~ gamma(1/2, 2/n).
+    # However, BUGS/JAGS uses the *rate parameterization* 1/theta instead of the
+    # scale parametrization theta. Hence we obtain, in de BUGS/JAGS rate notation:
+    # 1/g ~ dgamma(1/2, n/2)
+    #------------------------------------------------------------------------------
+    

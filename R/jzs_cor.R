@@ -6,7 +6,7 @@ jzs_cor <-
     runif(1) # defines .Random.seed
     
     # standardize variables
-    if(standardize==TRUE){
+    if(standardize == TRUE){
       X <- (V1-mean(V1))/sd(V1)
       Y <- (V2-mean(V2))/sd(V2)
     }else {
@@ -17,36 +17,6 @@ jzs_cor <-
     r <- cor(X,Y)
     n <- length(X)
     
-    # main function to analytically calculate the BF for correlation
-    # see Wetzels, R. & Wagenmakers, E.-J. (2012). A default Bayesian hypothesis test for correlations and partial correlations. Psychonomic Bulletin & Review, 19, 1057-1064
-    # the jzs_corbf function is based on updated R code that can handle larger values of n
-    
-    jzs_corbf=function(r,n){
-      int=function(r,n,g){
-        exp(
-          ((n-2)/2)*log(1+g)+
-            (-(n-1)/2)*log(1+(1-r^2)*g)+
-            (-3/2)*log(g)+
-            -n/(2*g))
-      }
-      
-      bf10 <- try(sqrt((n/2))/gamma(1/2)*
-        integrate(int, lower = 0, upper = Inf, r = r, n = n, subdivisions = subdivisions)$value)
-      
-      # if the evidence is overwhelming, the BF will become infinite
-      # to avoid this resulting in an error, give back the max possible number
-      if(class(bf10)=="try-error" & grepl("non-finite function value",bf10[1])){
-        bf10 <- .Machine$double.xmax
-        message("Note: the Error above was caused because the BF from the function jzs_corbf was approaching infinity. To avoid the function from crashing, the returned BF is the largest possible number in R.")
-      } else {
-        if(class(bf10)=="try-error" & !grepl("non-finite function value",bf10[1])){
-          bf10 <- NA
-          message("An error occurred. The BF could not be calculated")
-        }
-      }
-      return(bf10)	
-    }
-    
     BF <- jzs_corbf(r,n)
     
     ### the next part is needed to impose an order restriction
@@ -56,54 +26,8 @@ jzs_cor <-
     # load JAGS models
     #==========================================================
     
-    jagsmodelcorrelation <- 
-      
-      "####### Cauchy-prior on single regression coefficient #######
-    model
-    
-{
-    
-    for (i in 1:n)
-    
-{
-    mu[i] <- intercept + alpha*x[i]
-    y[i]   ~ dnorm(mu[i],phi)
-    
-}
-    
-    # uninformative prior on the intercept intercept, 
-    # Jeffreys' prior on precision phi
-    intercept ~ dnorm(0,.0001)
-    phi   ~ dgamma(.0001,.0001)
-    #phi   ~ dgamma(0.0000001,0.0000001) #JAGS accepts even this
-    #phi   ~ dgamma(0.01,0.01)           #WinBUGS wants this
-    
-    # inverse-gamma prior on g:
-    g       <- 1/invg 
-    a.gamma <- 1/2
-    b.gamma <- n/2    
-    invg     ~ dgamma(a.gamma,b.gamma)
-    
-    
-    # g-prior on beta:
-    vari <- (g/phi) * invSigma 
-    prec <- 1/vari
-    alpha    ~ dnorm(0, prec)
-}
-    
-    # Explanation------------------------------------------------------------------ 
-    # Prior on g:
-    # We know that g ~ inverse_gamma(1/2, n/2), with 1/2 the shape
-    # parameter and n/2 the scale parameter.
-    # It follows that 1/g ~ gamma(1/2, 2/n).
-    # However, BUGS/JAGS uses the *rate parameterization* 1/theta instead of the
-    # scale parametrization theta. Hence we obtain, in de BUGS/JAGS rate notation:
-    # 1/g ~ dgamma(1/2, n/2)
-    #------------------------------------------------------------------------------
-    "
-    
-    jags.model.file1 <- tempfile(fileext=".txt")
-    write(jagsmodelcorrelation,jags.model.file1)
+    jags.model.file1 <- system.file("jags", "jags-model-correlation.txt", 
+                                    package = "BayesMed")
     
     #========================================================================
     # Estimate Posterior Distribution for the Correlation Coefficient Alpha
@@ -121,9 +45,10 @@ jzs_cor <-
       list(alpha = -0.3), #chain 2 starting value
       list(alpha = 0.3)) #chain 3 starting value
     
-    jagssamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
-                       n.chains=3, n.iter=n.iter, DIC=T,
-                       n.burnin=n.burnin, n.thin=1, model.file=jags.model.file1)
+    jagssamples <- R2jags::jags(data = jags.data, inits=jags.inits, jags.params, 
+                                n.chains = 3, n.iter = n.iter, DIC = TRUE,
+                                n.burnin = n.burnin, n.thin = 1, 
+                                model.file = jags.model.file1)
     
     # estimate the posterior regression coefficient and scaling factor g
     alpha <- jagssamples$BUGSoutput$sims.list$alpha[,1]
