@@ -1,4 +1,4 @@
 plot.rjags <-
   function(x,...){
-    traceplot(x)
+    R2jags::traceplot(x)
   }
