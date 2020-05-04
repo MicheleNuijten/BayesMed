@@ -1,8 +1,8 @@
 jzs_corSD <-  
-  function(V1,V2,
-           SDmethod=c("dnorm","splinefun","logspline","fit.st"),
-           alternative=c("two.sided","less","greater"),
-           n.iter=10000,n.burnin=500,standardize=TRUE){
+  function(V1, V2,
+           SDmethod = c("dnorm","splinefun","logspline","fit.st"),
+           alternative = c("two.sided","less","greater"),
+           n.iter = 10000, n.burnin = 500, standardize = TRUE){
     
     runif(1) # defines .Random.seed
     
@@ -22,53 +22,8 @@ jzs_corSD <-
     # load JAGS models
     #==========================================================
     
-    jagsmodelcorrelation <- 
-      
-      "####### Cauchy-prior on single beta #######
-model
-    
-{
-    
-    for (i in 1:n)
-    
-{
-    mu[i] <- intercept + alpha*x[i]
-    y[i]   ~ dnorm(mu[i],phi)
-    
-}
-    
-    # uninformative prior on the intercept intercept, 
-    # Jeffreys' prior on precision phi
-    intercept ~ dnorm(0,.0001)
-    phi   ~ dgamma(.0001,.0001)
-    #phi   ~ dgamma(0.0000001,0.0000001) #JAGS accepts even this
-    #phi   ~ dgamma(0.01,0.01)           #WinBUGS wants this
-    
-    # inverse-gamma prior on g:
-    g       <- 1/invg 
-    a.gamma <- 1/2
-    b.gamma <- n/2    
-    invg     ~ dgamma(a.gamma,b.gamma)
-    
-    
-    # g-prior on beta:
-    vari <- (g/phi) * invSigma 
-    prec <- 1/vari
-    alpha    ~ dnorm(0, prec)
-}
-    
-    # Explanation------------------------------------------------------------------ 
-    # Prior on g:
-    # We know that g ~ inverse_gamma(1/2, n/2), with 1/2 the shape
-    # parameter and n/2 the scale parameter.
-    # It follows that 1/g ~ gamma(1/2, 2/n).
-    # However, BUGS/JAGS uses the *rate parameterization* 1/theta instead of the
-    # scale parametrization theta. Hence we obtain, in de BUGS/JAGS rate notation:
-    # 1/g ~ dgamma(1/2, n/2)
-    #------------------------------------------------------------------------------
-    "
-    jags.model.file1 <- tempfile(fileext=".txt")
-    write(jagsmodelcorrelation,jags.model.file1)
+    jags_model_correlation <- system.file("jags", "jags-model-correlation.txt", 
+                                    package = "BayesMed")
     
     #==========================================================
     # BF FOR CORRELATION
@@ -86,18 +41,27 @@ model
       list(alpha = -0.3), #chain 2 starting value
       list(alpha = 0.3)) #chain 3 starting value
     
-    jagssamples <- jags(data=jags.data, inits=jags.inits, jags.params, 
-                        n.chains=3, n.iter=n.iter, DIC=T,
-                        n.burnin=n.burnin, n.thin=1, model.file=jags.model.file1)
+    jagssamples <- jags(data = jags.data, inits = jags.inits, jags.params, 
+                        n.chains = 3, n.iter = n.iter, DIC = TRUE,
+                        n.burnin = n.burnin, n.thin = 1, 
+                        model.file = jags_model_correlation)
     
     # estimate the posterior regression coefficient and scaling factor g
-    alpha <- jagssamples$BUGSoutput$sims.list$alpha[,1]
+    alpha <- jagssamples$BUGSoutput$sims.list$alpha[ ,1]
     g  <- jagssamples$BUGSoutput$sims.list$g
     
     
     #------------------------------------------------------------------
     
     if(SDmethod[1]=="fit.st"){
+      
+      # check whether the package QRM is available
+      # if not, return an error
+      if (!requireNamespace("QRM", quietly = TRUE)) {
+        stop("Package \"QRM\" needed for this function to work. Please install 
+             it, or use a different SDmethod.",
+             call. = FALSE)
+      }
       
       mydt <- function(x, m, s, df) dt((x-m)/s, df)/s
       
@@ -113,7 +77,7 @@ model
         
         # BAYES FACTOR ALPHA
         BF <- 1/(mydt(0,mu,sigma,nu)/dcauchy(0))
-          
+        
       } else {
         
         warning("fit.st did not converge, alternative optimization method was used.","\n")
@@ -136,7 +100,7 @@ model
         
         # ALTERNATIVE BAYES FACTOR ALPHA
         BF <- 1/(mydt2(0,m,s,df)/dcauchy(0))
-            
+        
       }
       
       #-------------------------
@@ -149,7 +113,7 @@ model
     } else if(SDmethod[1]=="splinefun"){
       f <- splinefun(density(alpha))
       BF <- 1/(f(0)/dcauchy(0))
-            
+      
       #-------------------------
       
     } else if (SDmethod[1]=="logspline"){

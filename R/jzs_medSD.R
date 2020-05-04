@@ -30,116 +30,12 @@ jzs_medSD <-
     # load JAGS models
     #==========================================================
     
-    jagsmodelcorrelation <- 
-      
-      "####### Cauchy-prior on single beta #######
-model
+    jags_model_correlation <- system.file("jags", "jags-model-correlation.txt", 
+                                          package = "BayesMed")
     
-{
-    
-    for (i in 1:n)
-    
-{
-    mu[i] <- intercept + alpha*x[i]
-    y[i]   ~ dnorm(mu[i],phi)
-    
-}
-    
-    # uninformative prior on the intercept intercept, 
-    # Jeffreys' prior on precision phi
-    intercept ~ dnorm(0,.0001)
-    phi   ~ dgamma(.0001,.0001)
-    #phi   ~ dgamma(0.0000001,0.0000001) #JAGS accepts even this
-    #phi   ~ dgamma(0.01,0.01)           #WinBUGS wants this
-    
-    # inverse-gamma prior on g:
-    g       <- 1/invg 
-    a.gamma <- 1/2
-    b.gamma <- n/2    
-    invg     ~ dgamma(a.gamma,b.gamma)
-    
-    
-    # g-prior on beta:
-    vari <- (g/phi) * invSigma 
-    prec <- 1/vari
-    alpha    ~ dnorm(0, prec)
-}
-    
-    # Explanation------------------------------------------------------------------ 
-    # Prior on g:
-    # We know that g ~ inverse_gamma(1/2, n/2), with 1/2 the shape
-    # parameter and n/2 the scale parameter.
-    # It follows that 1/g ~ gamma(1/2, 2/n).
-    # However, BUGS/JAGS uses the *rate parameterization* 1/theta instead of the
-    # scale parametrization theta. Hence we obtain, in de BUGS/JAGS rate notation:
-    # 1/g ~ dgamma(1/2, n/2)
-    #------------------------------------------------------------------------------
-    "
-    jags.model.file1 <- tempfile(fileext=".txt")
-    write(jagsmodelcorrelation,jags.model.file1)
-    
-    #============================================================================
-    
-    jagsmodelpartialcorrelation <- 
-      
-      "####### Cauchy-prior on beta and tau' #######
-model
-    
-{
-    
-    for (i in 1:n)
-    
-{
-    mu[i] <- intercept + theta[1]*x[i,1] + theta[2]*x[i,2]
-    y[i]   ~ dnorm(mu[i],phi)
-    
-}
-    
-    # uninformative prior on intercept alpha, 
-    # Jeffreys' prior on precision phi
-    intercept ~ dnorm(0,.0001)
-    phi   ~ dgamma(.0001,.0001)
-    #phi   ~ dgamma(0.0000001,0.0000001) #JAGS accepts even this
-    #phi   ~ dgamma(0.01,0.01)           #WinBUGS wants this
-    
-    # inverse-gamma prior on g:
-    g       <- 1/invg 
-    a.gamma <- 1/2
-    b.gamma <- n/2    
-    invg     ~ dgamma(a.gamma,b.gamma)
-    
-    # Ntzoufras, I. (2009). Bayesian Modeling Using WinBUGS.
-    # New Jersey: John Wiley & Sons, Inc. p. 167
-    # calculation of the inverse matrix of V
-    inverse.V <- inverse(V)
-    # calculation of the elements of prior precision matrix
-    for(i in 1:2)
-{ 
-    for (j in 1:2)
-{
-    prior.T[i,j] <- inverse.V[i,j] * phi/g
-}
-}
-    # multivariate prior for the beta vector
-    theta[1:2] ~ dmnorm( mu.theta, prior.T )
-    for(i in 1:2) { mu.theta[i] <- 0 }
-    
-}
-    
-    # Explanation-----------------------------------------------------------------
-    # Prior on g:
-    # We know that g ~ inverse_gamma(1/2, n/2), with 1/2 the shape parameter and 
-    # n/2 the scale parameter.
-    # It follows that 1/g ~ gamma(1/2, 2/n).
-    # However, BUGS/JAGS uses the *rate parameterization* 1/theta instead of the
-    # scale parametrization theta. Hence we obtain, in de BUGS/JAGS rate notation:
-    # 1/g ~ dgamma(1/2, n/2)
-    # Also note: JAGS does not want [,] structure
-    #-----------------------------------------------------------------------------
-    "
-    
-    jags.model.file2 <- tempfile(fileext=".txt")
-    write(jagsmodelpartialcorrelation,jags.model.file2)
+    jags_model_partcor <- system.file("jags", 
+                                      "jags-model-partial_correlation.txt", 
+                                      package = "BayesMed")
     
     
     #==========================================================
@@ -158,9 +54,10 @@ model
       list(alpha = -0.3), #chain 2 starting value
       list(alpha = 0.3)) #chain 3 starting value
     
-    jagssamplesA <- jags(data=jags.data, inits=jags.inits, jags.params, 
-                       n.chains=3, n.iter=n.iter, DIC=T,
-                       n.burnin=n.burnin, n.thin=1, model.file=jags.model.file1)
+    jagssamplesA <- jags(data = jags.data, inits = jags.inits, jags.params, 
+                       n.chains = 3, n.iter = n.iter, DIC = TRUE,
+                       n.burnin = n.burnin, n.thin = 1, 
+                       model.file = jags_model_correlation)
     
     # estimate the posterior regression coefficient and scaling factor g
     alpha <- jagssamplesA$BUGSoutput$sims.list$alpha[,1]
@@ -311,9 +208,10 @@ model
       list(theta = c(0.3, 0.0)), #chain 2 starting value
       list(theta = c(-.15,.15))) #chain 3 starting value
     
-    jagssamplesTB <- jags(data=jags.data, inits=jags.inits, jags.params, 
-                       n.chains=3, n.iter=n.iter, DIC=T,
-                       n.burnin=n.burnin, n.thin=1, model.file=jags.model.file2)
+    jagssamplesTB <- jags(data = jags.data, inits = jags.inits, jags.params, 
+                       n.chains = 3, n.iter = n.iter, DIC = TRUE,
+                       n.burnin = n.burnin, n.thin = 1, 
+                       model.file = jags_model_partcor)
     
     beta <- jagssamplesTB$BUGSoutput$sims.list$theta[,2]
     
