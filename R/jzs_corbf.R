@@ -7,7 +7,7 @@
 jzs_corbf <- function(r,n){
   
   bf10 <- try(sqrt((n/2))/gamma(1/2) * 
-                integrate(int, lower = 0, upper = Inf, 
+                integrate(int_cor, lower = 0, upper = Inf, 
                           r = r, n = n, 
                           subdivisions = subdivisions)$value)
   
@@ -28,7 +28,7 @@ jzs_corbf <- function(r,n){
 }
 
 
-int <- function(r,n,g){
+int_cor <- function(r,n,g){
   exp(((n-2)/2)*log(1+g)+
       (-(n-1)/2)*log(1+(1-r^2)*g)+
       (-3/2)*log(g)+
